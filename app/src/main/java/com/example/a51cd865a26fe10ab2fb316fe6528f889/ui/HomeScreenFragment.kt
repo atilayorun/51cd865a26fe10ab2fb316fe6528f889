@@ -1,16 +1,14 @@
-package com.example.a51cd865a26fe10ab2fb316fe6528f889
+package com.example.a51cd865a26fe10ab2fb316fe6528f889.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentHomeScreenBinding
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeScreenFragment : Fragment() {

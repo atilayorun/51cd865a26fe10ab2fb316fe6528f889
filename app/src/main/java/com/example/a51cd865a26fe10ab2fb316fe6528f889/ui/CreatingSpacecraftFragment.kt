@@ -1,20 +1,21 @@
-package com.example.a51cd865a26fe10ab2fb316fe6528f889
+package com.example.a51cd865a26fe10ab2fb316fe6528f889.ui
 
-import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.os.Bundle
-import android.view.Gravity.apply
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.SeekBar
 import android.widget.Toast
-import androidx.core.view.GravityCompat.apply
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentCreatingSpacecraftBinding
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.CreatingSpacecraftViewModel
 
 class CreatingSpacecraftFragment : Fragment() {
@@ -25,20 +26,39 @@ class CreatingSpacecraftFragment : Fragment() {
     private var durabilityPoint: Int = 0
     private var speedPoint: Int = 0
     private var capacityPoint: Int = 0
+    private lateinit var progressDialog : ProgressDialog
+    private lateinit var currentPosition : String
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setProgressDialog()
         viewModel = ViewModelProvider(this).get(CreatingSpacecraftViewModel()::class.java)
         viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
-        val spacecraft = viewModel.getSpacecraft()
 
+//        viewModel.getSpacecraft()
+        viewModel.getFavSpaceStation()
+        viewModel.getAllStationFromAPI()
 
-        spacecraft?.let {
-            findNavController().navigate(R.id.action_creatingSpacecraftFragment_to_homeScreenFragment)
-        }
+        viewModel.spaceCraft.observe(viewLifecycleOwner,{
+            it.let {
+                viewModel.removeSpacecraft()
+            }
+        })
+
+        viewModel.favSpaceStationList.observe(viewLifecycleOwner,{
+            it.let {
+                viewModel.removeFavSpaceStation()
+            }
+        })
+
+        viewModel.spaceStationList.observe(viewLifecycleOwner, {
+            currentPosition = it[0].name
+            viewModel.addAllStation()
+            progressDialog.dismiss()
+        })
 
         _binding = FragmentCreatingSpacecraftBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -47,15 +67,13 @@ class CreatingSpacecraftFragment : Fragment() {
             if (speedPoint == 0 || durabilityPoint == 0 || capacityPoint == 0)
                 Toast.makeText(context, "Yetenekler 0'dan büyük olmalıdır.", Toast.LENGTH_SHORT)
                     .show()
-            else if(totalPoint != 15){
+            else if (totalPoint != 15) {
                 Toast.makeText(context, "Yeteneklerin toplamı 15 olmalıdır.", Toast.LENGTH_SHORT)
                     .show()
-            }
-            else if(binding.edtStationName.text.isEmpty()){
+            } else if (binding.edtStationName.text.isEmpty()) {
                 Toast.makeText(context, "İstasyon adı boş olamaz.", Toast.LENGTH_SHORT)
                     .show()
-            }
-            else {
+            } else {
                 val spaceCraft = Spacecraft(
                     binding.edtStationName.text.toString(),
                     binding.sbSpeed.progress,
@@ -63,7 +81,8 @@ class CreatingSpacecraftFragment : Fragment() {
                     binding.sbDurability.progress,
                     binding.sbCapacity.progress * 10000,
                     binding.sbSpeed.progress * 20,
-                    binding.sbDurability.progress * 10000
+                    binding.sbDurability.progress * 10000,
+                    currentPosition = currentPosition
                 )
                 viewModel.addSpacecraft(spaceCraft)
                 findNavController().navigate(R.id.action_creatingSpacecraftFragment_to_homeScreenFragment)
@@ -71,7 +90,7 @@ class CreatingSpacecraftFragment : Fragment() {
         }
 
 
-        fun updateValue(){
+        fun updateValue() {
             totalPoint = durabilityPoint + speedPoint + capacityPoint
             binding.tvPoint.text = "Dağıtılacak Puan : ${totalPoint}"
         }
@@ -121,6 +140,12 @@ class CreatingSpacecraftFragment : Fragment() {
 
         })
         return view
+    }
+
+    fun setProgressDialog(){
+        progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Yükleniyor")
+        progressDialog.show()
     }
 
     override fun onDestroyView() {

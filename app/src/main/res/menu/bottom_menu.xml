@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/stationFragment2"
-        android:icon="@drawable/airplane"
+        android:icon="@drawable/ic_flight_takeoff_black"
         android:title="İstasyon" />
     <item
         android:id="@+id/favSpaceStationsFragment"
-        android:icon="@drawable/blackstar"
+        android:icon="@drawable/ic_star_black"
         android:title="Favoriler" />
 </menu>

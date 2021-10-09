@@ -13,4 +13,5 @@ data class Spacecraft(
     val universalSpaceTime:Int,
     val enduranceTime:Int,
     val damageCapacity: Int = 100,
+    val currentPosition:String
 )

@@ -7,14 +7,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:id="@+id/tv_rates"
+        android:id="@+id/tv_capacityAndStock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:textColor="#000000"
         android:fontFamily="@font/lato_regular"
-        android:text="TextView" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tv_spaceSuitCount"
@@ -24,7 +24,7 @@
         android:layout_marginLeft="15dp"
         android:textColor="#000000"
         android:fontFamily="@font/lato_regular"
-        android:text="TextView" />
+        android:text="" />
 
     <ImageView
         android:id="@+id/iv_fav"
@@ -33,7 +33,7 @@
         android:layout_height="45dp"
         android:layout_marginRight="15dp"
         android:layout_gravity="right"
-        android:src="@drawable/star"/>
+        android:src="@drawable/ic_star_border_black"/>
 
     <TextView
         android:id="@+id/tv_stationName"

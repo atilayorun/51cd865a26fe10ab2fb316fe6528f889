@@ -1,4 +1,4 @@
-package com.example.a51cd865a26fe10ab2fb316fe6528f889
+package com.example.a51cd865a26fe10ab2fb316fe6528f889.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter.FavSpaceStationsAdapter
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentFavSpaceStationsBinding
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
@@ -53,11 +54,11 @@ class FavSpaceStationsFragment : Fragment(),
     override fun updateStation(station: Station, ivFav: ImageView) {
         if (station.isFav) {
             station.isFav = false
-            ivFav.setImageResource(R.drawable.star)
+            ivFav.setImageResource(R.drawable.ic_star_black)
             viewModel.updateStation(station)
         } else {
             station.isFav = true
-            ivFav.setImageResource(R.drawable.blackstar)
+            ivFav.setImageResource(R.drawable.ic_star_border_black)
             viewModel.updateStation(station)
         }
 

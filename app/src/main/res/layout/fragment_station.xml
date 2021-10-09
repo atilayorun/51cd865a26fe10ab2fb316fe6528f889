@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".StationFragment" >
+    tools:context=".ui.StationFragment" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -87,7 +87,7 @@
             android:layout_width="51dp"
             android:layout_height="90dp"
             android:scaleType="fitXY"
-            android:src="@drawable/rightarrow"
+            android:src="@drawable/ic_chevron_right_black"
             android:tint="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/rv_station"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +98,7 @@
             android:layout_width="51dp"
             android:layout_height="90dp"
             android:scaleType="fitXY"
-            android:src="@drawable/leftarrow"
+            android:src="@drawable/ic_chevron_left_black"
             android:tint="#000000"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/rv_station"
@@ -110,7 +110,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="35dp"
-            android:text="TextView"
             android:fontFamily="@font/lato_bold"
             android:textColor="#000000"
             android:textSize="25sp"
@@ -131,5 +130,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_spaceCraftName"
             app:layout_constraintTop_toBottomOf="@+id/tv_spaceCraftName" />
+
+        <TextView
+            android:id="@+id/tv_damageCapacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="35dp"
+            android:textSize="15sp"
+            android:fontFamily="@font/lato_regular"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_spaceCraftName"
+            app:layout_constraintEnd_toStartOf="@+id/tv_time"
+            app:layout_constraintTop_toTopOf="@+id/tv_spaceCraftName" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:textSize="15sp"
+            android:fontFamily="@font/lato_regular"
+            android:textColor="#000000"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_damageCapacity"
+            app:layout_constraintEnd_toEndOf="@+id/searchView"
+            app:layout_constraintTop_toTopOf="@+id/tv_damageCapacity" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

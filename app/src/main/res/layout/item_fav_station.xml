@@ -48,5 +48,5 @@
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_stationName"
-        android:src="@drawable/blackstar" />
+        android:src="@drawable/ic_star_black" />
 </androidx.constraintlayout.widget.ConstraintLayout>

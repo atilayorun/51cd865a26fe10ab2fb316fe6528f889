@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 class StationAdapter(listener: StationAdapterListener) :
     RecyclerView.Adapter<StationAdapter.ViewHolder>() {
     var listener: StationAdapterListener = listener
-    private lateinit var stationList: ArrayList<Station>
+    private  var stationList = arrayListOf<Station>()
     private lateinit var copyStationList: ArrayList<Station>
     var position: Int = 0
 
@@ -57,9 +57,9 @@ class StationAdapter(listener: StationAdapterListener) :
         this.position = position
         println(position)
         if (item.isFav)
-            holder.ivFav.setImageResource(R.drawable.blackstar)
+            holder.ivFav.setImageResource(R.drawable.ic_star_black)
         else
-            holder.ivFav.setImageResource(R.drawable.star)
+            holder.ivFav.setImageResource(R.drawable.ic_star_border_black)
 
         holder.ivFav.setOnClickListener {
             listener.imgStarOnClickListener(
@@ -72,7 +72,7 @@ class StationAdapter(listener: StationAdapterListener) :
     override fun getItemCount(): Int = stationList.size
 
     inner class ViewHolder(val binding: ItemStationBinding) : RecyclerView.ViewHolder(binding.root) {
-        val tvRates: TextView = binding.tvRates
+        val tvRates: TextView = binding.tvCapacityAndStock
         val tvStationName: TextView = binding.tvStationName
         val ivFav: ImageView = binding.ivFav
     }

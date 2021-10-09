@@ -1,4 +1,4 @@
-package com.example.a51cd865a26fe10ab2fb316fe6528f889
+package com.example.a51cd865a26fe10ab2fb316fe6528f889.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,6 +10,7 @@ import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter.StationAdapter
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentStationBinding
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
@@ -35,8 +36,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
         viewModel = ViewModelProvider(this).get(StationViewModel()::class.java)
 
         viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
-        spacecraft = viewModel.getSpacecraft()
-        binding.tvSpaceCraftName.text = spacecraft.name
+        viewModel.getSpacecraft()
 
         setupAdapter()
 
@@ -44,12 +44,18 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
             return@OnTouchListener true
         })
 
-        viewModel.spaceStationList.observe(viewLifecycleOwner, {
-            if (it.isEmpty())
-                viewModel.getAllStationFromAPI()
+        viewModel.spacecraft.observe(viewLifecycleOwner,{
+            binding.tvSpaceSuitCount.text = "UGS : ${it.spaceSuitCount}"
+            binding.tvUniversalSpaceTime.text = "EUS : ${it.universalSpaceTime}"
+            binding.tvEnduranceTime.text = "DS : ${it.enduranceTime}"
+            binding.tvSpaceCraftName.text = it.name
+            binding.tvDamageCapacity.text = it.damageCapacity.toString()
+            binding.tvTime.text ="${it.enduranceTime / 1000}s"
+            binding.tvCurrentStation.text = it.currentPosition
+        })
 
-            // Düzelt = her geldiğinde ekleme yapıyor
-            viewModel.addStation()
+        viewModel.spaceStationList.observe(viewLifecycleOwner, {
+            viewModel.addAllStation()
             adapter.setData(it as ArrayList<Station>)
         })
         viewModel.getAllStation()
@@ -114,7 +120,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
         if (!station.isFav) {
             station.isFav = true
             viewModel.updateStation(station)
-            ivStar.setImageResource(R.drawable.blackstar)
+            ivStar.setImageResource(R.drawable.ic_star_black)
         }
     }
 }

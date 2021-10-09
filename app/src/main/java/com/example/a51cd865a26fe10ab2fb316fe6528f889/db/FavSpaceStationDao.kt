@@ -12,4 +12,7 @@ interface FavSpaceStationDao {
 
     @Update
     fun updateStation(station: Station)
+
+    @Query("DELETE FROM fav_spacecraft_table")
+    fun removeFavSpaceStation()
 }

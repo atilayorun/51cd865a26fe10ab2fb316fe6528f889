@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/stationFragment2"
-        android:name="com.example.a51cd865a26fe10ab2fb316fe6528f889.StationFragment"
+        android:name="com.example.a51cd865a26fe10ab2fb316fe6528f889.ui.StationFragment"
         android:label="fragment_station"
         tools:layout="@layout/fragment_station" />
     <fragment
         android:id="@+id/favSpaceStationsFragment"
-        android:name="com.example.a51cd865a26fe10ab2fb316fe6528f889.FavSpaceStationsFragment"
+        android:name="com.example.a51cd865a26fe10ab2fb316fe6528f889.ui.FavSpaceStationsFragment"
         android:label="fragment_fav_space_stations"
         tools:layout="@layout/fragment_fav_space_stations" />
 </navigation>
