@@ -13,4 +13,7 @@ interface SpacecraftDao {
 
     @Query("DELETE FROM fav_spacecraft_table")
     fun removeSpacecraft()
+
+    @Update
+    fun updateSpacecraft(spacecraft: Spacecraft)
 }

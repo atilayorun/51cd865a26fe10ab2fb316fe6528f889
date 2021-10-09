@@ -6,11 +6,12 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "fav_station_table")
 data class Station(
-    @PrimaryKey @SerializedName("name") val name: String,
-    @SerializedName("coordinateX") val coordinateX: Int,
-    @SerializedName("coordinateY") val coordinateY: Int,
-    @SerializedName("capacity") val capacity: Int,
-    @SerializedName("stock") val stock: Int,
-    @SerializedName("need") val need: Int,
-    var isFav: Boolean=false
+    @PrimaryKey var name: String,
+    var coordinateX: Double,
+    var coordinateY: Double,
+    var capacity: Int,
+    var stock: Int,
+    var need: Int,
+    var isFav: Boolean = false,
+    var isActive: Boolean = false
 )

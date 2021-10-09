@@ -6,12 +6,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "fav_spacecraft_table")
 data class Spacecraft(
     @PrimaryKey val name:String,
-    val speed: Int,
-    val materialCapacity: Int,
-    val durability: Int,
-    val spaceSuitCount:Int,
-    val universalSpaceTime:Int,
-    val enduranceTime:Int,
-    val damageCapacity: Int = 100,
-    val currentPosition:String
+    var speed: Int,
+    var materialCapacity: Int,
+    var durability: Int,
+    var spaceSuitCount:Int,
+    var universalSpaceTime:Int,
+    var enduranceTime:Int,
+    var damageCapacity: Int = 100,
+    var currentPositionName:String,
+    var coordinateX:Double,
+    var coordinateY:Double
 )

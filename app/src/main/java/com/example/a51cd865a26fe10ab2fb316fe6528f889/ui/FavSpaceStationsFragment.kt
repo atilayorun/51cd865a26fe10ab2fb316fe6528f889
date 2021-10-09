@@ -54,11 +54,11 @@ class FavSpaceStationsFragment : Fragment(),
     override fun updateStation(station: Station, ivFav: ImageView) {
         if (station.isFav) {
             station.isFav = false
-            ivFav.setImageResource(R.drawable.ic_star_black)
+            ivFav.setImageResource(R.drawable.ic_star_border_black)
             viewModel.updateStation(station)
         } else {
             station.isFav = true
-            ivFav.setImageResource(R.drawable.ic_star_border_black)
+            ivFav.setImageResource(R.drawable.ic_star_black)
             viewModel.updateStation(station)
         }
 

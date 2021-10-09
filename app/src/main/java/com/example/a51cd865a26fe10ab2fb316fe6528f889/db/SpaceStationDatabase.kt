@@ -22,7 +22,7 @@ abstract class SpaceStationDatabase : RoomDatabase() {
                     context,
                     SpaceStationDatabase::class.java,
                     "station.db"
-                ).fallbackToDestructiveMigration().build()
+                ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
             }
             return instance
         }

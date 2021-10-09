@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,8 +24,8 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     private val binding get() = _binding!!
     private lateinit var viewModel: StationViewModel
     private lateinit var adapter: StationAdapter
-    private lateinit var spacecraft: Spacecraft
-    private var currentPosition = 0
+    private var currentPositionAdapter = 0
+    private lateinit var spaceCraft:Spacecraft
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,13 +52,15 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
             binding.tvSpaceCraftName.text = it.name
             binding.tvDamageCapacity.text = it.damageCapacity.toString()
             binding.tvTime.text ="${it.enduranceTime / 1000}s"
-            binding.tvCurrentStation.text = it.currentPosition
+            binding.tvCurrentStation.text = it.currentPositionName
+            spaceCraft = it
         })
 
         viewModel.spaceStationList.observe(viewLifecycleOwner, {
-            viewModel.addAllStation()
             adapter.setData(it as ArrayList<Station>)
         })
+
+
         viewModel.getAllStation()
 
         binding.ivRightArrow.setOnClickListener {
@@ -83,23 +86,23 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     }
 
     private fun scrollToNext() {
-        if (currentPosition != viewModel.spaceStationList.value?.size?.minus(1)) {
-            ++currentPosition
+        if (currentPositionAdapter != viewModel.spaceStationList.value?.size?.minus(1)) {
+            ++currentPositionAdapter
             binding.rvStation.layoutManager?.smoothScrollToPosition(
                 binding.rvStation,
                 RecyclerView.State(),
-                currentPosition
+                currentPositionAdapter
             )
         }
     }
 
     private fun scrollToPrevious() {
-        if (currentPosition != 0) {
-            --currentPosition
+        if (currentPositionAdapter != 0) {
+            --currentPositionAdapter
             binding.rvStation.layoutManager?.smoothScrollToPosition(
                 binding.rvStation,
                 RecyclerView.State(),
-                currentPosition
+                currentPositionAdapter
             )
         }
     }
@@ -122,5 +125,14 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
             viewModel.updateStation(station)
             ivStar.setImageResource(R.drawable.ic_star_black)
         }
+    }
+
+    override fun btnTravelSetOnClickListener(station: Station) {
+        if(binding.tvCurrentStation.text != station.name){
+            viewModel.btnTravelSetOnClick(station)
+        }
+        else
+            Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
+                .show()
     }
 }

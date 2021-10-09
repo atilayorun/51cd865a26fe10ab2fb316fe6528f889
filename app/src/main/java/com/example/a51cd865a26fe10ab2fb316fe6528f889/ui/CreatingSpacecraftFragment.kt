@@ -27,7 +27,7 @@ class CreatingSpacecraftFragment : Fragment() {
     private var speedPoint: Int = 0
     private var capacityPoint: Int = 0
     private lateinit var progressDialog : ProgressDialog
-    private lateinit var currentPosition : String
+    private lateinit var station: Station
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +55,7 @@ class CreatingSpacecraftFragment : Fragment() {
         })
 
         viewModel.spaceStationList.observe(viewLifecycleOwner, {
-            currentPosition = it[0].name
+            this.station = it[0]
             viewModel.addAllStation()
             progressDialog.dismiss()
         })
@@ -82,7 +82,9 @@ class CreatingSpacecraftFragment : Fragment() {
                     binding.sbCapacity.progress * 10000,
                     binding.sbSpeed.progress * 20,
                     binding.sbDurability.progress * 10000,
-                    currentPosition = currentPosition
+                    currentPositionName = station.name,
+                    coordinateX = station.coordinateX,
+                    coordinateY = station.coordinateY
                 )
                 viewModel.addSpacecraft(spaceCraft)
                 findNavController().navigate(R.id.action_creatingSpacecraftFragment_to_homeScreenFragment)
