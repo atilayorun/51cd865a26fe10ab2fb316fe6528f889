@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".CreatingSpacecraftFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:background="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_point" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_continue"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="35dp"
+            android:text="Devam Et"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textSize="15sp"
+            app:backgroundTint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="#33AAAAAA"
+            app:strokeColor="#000000"
+            app:strokeWidth="2dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_point"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="@font/lato_regular"
+            android:singleLine="true"
+            android:text="Dağıtılacak Puan : 0"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edt_stationName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/rounded_edittext"
+            android:fontFamily="@font/lato_medium"
+            android:hint="Uzay Aracı Adı"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColor="#8D97AA"
+            android:textColorHint="#8D97AA"
+            android:textColorLink="#8D97AA"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_point"
+            app:layout_constraintStart_toStartOf="@+id/tv_point"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <TextView
+            android:id="@+id/tv_durability"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="Dayanıklılık"
+            android:textColor="#8D97AA"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/edt_stationName"
+            app:layout_constraintTop_toBottomOf="@+id/edt_stationName" />
+
+        <SeekBar
+            android:id="@+id/sb_durability"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="@+id/edt_stationName"
+            android:progress="0"
+            android:max="15"
+            android:thumbTint="#000000"
+            android:progressBackgroundTint="#000000"
+            android:progressTint="#000000"
+            app:layout_constraintStart_toStartOf="@+id/tv_durability"
+            app:layout_constraintTop_toBottomOf="@+id/tv_durability" />
+
+        <TextView
+            android:id="@+id/tv_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="Hız"
+            android:textColor="#8D97AA"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/edt_stationName"
+            app:layout_constraintTop_toBottomOf="@+id/sb_durability" />
+
+        <SeekBar
+            android:id="@+id/sb_speed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:thumbTint="#000000"
+            android:progressBackgroundTint="#000000"
+            android:progressTint="#000000"
+            android:progress="0"
+            android:max="15"
+            app:layout_constraintEnd_toEndOf="@+id/edt_stationName"
+            app:layout_constraintStart_toStartOf="@+id/tv_durability"
+            app:layout_constraintTop_toBottomOf="@+id/tv_speed" />
+
+        <TextView
+            android:id="@+id/tv_capacity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="Kapasite"
+            android:textColor="#8D97AA"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/edt_stationName"
+            app:layout_constraintTop_toBottomOf="@+id/sb_speed" />
+
+        <SeekBar
+            android:id="@+id/sb_capacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:thumbTint="#000000"
+            android:progressBackgroundTint="#000000"
+            android:progress="0"
+            android:progressTint="#000000"
+            android:max="15"
+            app:layout_constraintEnd_toEndOf="@+id/edt_stationName"
+            app:layout_constraintStart_toStartOf="@+id/tv_durability"
+            app:layout_constraintTop_toBottomOf="@+id/tv_capacity" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".StationFragment" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_spaceSuitCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/lato_bold"
+            android:text="UGS : 5000"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_universalSpaceTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/lato_bold"
+            android:text="EUS : 500"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_enduranceTime"
+            app:layout_constraintStart_toEndOf="@+id/tv_spaceSuitCount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_enduranceTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="@font/lato_bold"
+            android:text="DS : 500000"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:background="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_universalSpaceTime" />
+
+        <TextView
+            android:id="@+id/tv_spaceCraftName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:text="Uzay aracı ismi"
+            app:layout_constraintStart_toStartOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_station"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_rightArrow"
+            app:layout_constraintStart_toEndOf="@+id/iv_leftArrow"
+            app:layout_constraintTop_toBottomOf="@+id/searchView"
+            app:layout_constraintVertical_bias="0.110000014" />
+
+        <ImageView
+            android:id="@+id/iv_rightArrow"
+            android:layout_width="51dp"
+            android:layout_height="90dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/rightarrow"
+            android:tint="#000000"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_station"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rv_station" />
+
+        <ImageView
+            android:id="@+id/iv_leftArrow"
+            android:layout_width="51dp"
+            android:layout_height="90dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/leftarrow"
+            android:tint="#000000"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_station"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rv_station" />
+
+        <TextView
+            android:id="@+id/tv_currentStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:text="TextView"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="#000000"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/rounded_edittext"
+            android:ems="10"
+            android:iconifiedByDefault="false"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_spaceCraftName"
+            app:layout_constraintTop_toBottomOf="@+id/tv_spaceCraftName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

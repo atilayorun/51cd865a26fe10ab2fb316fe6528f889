@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:foreground="@drawable/bg_roundrect_ripple_black_border"
+    app:cardCornerRadius="15dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/tv_rates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="#000000"
+        android:fontFamily="@font/lato_regular"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tv_spaceSuitCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="#000000"
+        android:fontFamily="@font/lato_regular"
+        android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/iv_fav"
+        android:layout_marginTop="10dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="right"
+        android:src="@drawable/star"/>
+
+    <TextView
+        android:id="@+id/tv_stationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_regular"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:text="LASDFLASDŞFLASDLŞF"
+        android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/btn_travel"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="10dp"
+        android:background="#FFF"
+        android:textAllCaps="false"
+        android:foreground="@drawable/bg_square_ripple_black_border"
+        android:text="Travel" />
+
+</androidx.cardview.widget.CardView>
