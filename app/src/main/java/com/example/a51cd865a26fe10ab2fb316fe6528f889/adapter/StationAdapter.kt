@@ -19,10 +19,6 @@ class StationAdapter(listener: StationAdapterListener) :
     var position: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        //val inflater = LayoutInflater.from(parent.context)
-        //val binding = ItemStationBinding.inflate(inflater)
-
-        val context = parent.context
         val itemBinding: ItemStationBinding = ItemStationBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
