@@ -25,7 +25,12 @@ class FavSpaceStationsViewModel : ViewModel() {
         }
     }
 
-    fun updateStation(station: Station) {
-        scope.launch { databaseSpace.stationDao().updateStation(station) }
+    fun updateAndGetAllFavStation(station: Station) {
+        scope.launch {
+            databaseSpace.stationDao().updateStation(station)
+            favSpaceStationListLiveData.postValue(
+                databaseSpace.favSpaceStationDao().getAllFavSpaceStation()
+            )
+        }
     }
 }

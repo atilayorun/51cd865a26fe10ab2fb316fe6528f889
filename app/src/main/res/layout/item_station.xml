@@ -54,6 +54,6 @@
         android:background="#FFF"
         android:textAllCaps="false"
         android:foreground="@drawable/bg_square_ripple_black_border"
-        android:text="Travel" />
+        android:text="Git" />
 
 </androidx.cardview.widget.CardView>

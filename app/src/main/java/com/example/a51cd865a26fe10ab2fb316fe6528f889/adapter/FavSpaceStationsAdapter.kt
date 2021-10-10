@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.ItemFavStationBinding
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.util.Util
@@ -40,6 +41,11 @@ class FavSpaceStationsAdapter(listener: FavSpaceStationsAdapterListener): Recycl
         val distance = Util.distanceFormula(item.coordinateX,0.0,item.coordinateY,0.0)
         holder.tvUniversalSpaceTime.text = "$distance EUS"
         holder.tvCapacityAndStock.text = "${favStationList[position].capacity}/${favStationList[position].stock}"
+        if (item.isFav) {
+            holder.ivFav.setImageResource(R.drawable.ic_star_black)
+        } else {
+            holder.ivFav.setImageResource(R.drawable.ic_star_border_black)
+        }
         holder.ivFav.setOnClickListener {
             listener.updateStation(item,holder.ivFav)
         }

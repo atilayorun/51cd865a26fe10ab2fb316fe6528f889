@@ -14,13 +14,14 @@ class StationViewModel : ViewModel() {
     private lateinit var databaseSpace: SpaceStationDatabase
     val spacecraftLiveData = MutableLiveData<Spacecraft>()
     val spaceStationListLiveData = MutableLiveData<List<Station>>()
+    val canGo = MutableLiveData<Boolean>()
     private val scope = CoroutineScope(Dispatchers.IO)
 
     fun setDb(db: SpaceStationDatabase) {
         this.databaseSpace = db
     }
 
-    fun getAllData(){
+    fun getAllData() {
         scope.launch {
             spacecraftLiveData.postValue(databaseSpace.spaceCraftDao().getSpacecraft())
             spaceStationListLiveData.postValue(databaseSpace.stationDao().getAllStation())
@@ -33,36 +34,48 @@ class StationViewModel : ViewModel() {
         }
     }
 
-    private fun updateSpaceCraft(spacecraft: Spacecraft) {
-        scope.launch {
-            databaseSpace.spaceCraftDao().updateSpacecraft(spacecraft)
-        }
-    }
-
     fun btnTravelSetOnClick(station: Station) {
-        val distance = Util.distanceFormula(station.coordinateX,spacecraftLiveData.value!!.coordinateX,station.coordinateY,spacecraftLiveData.value!!.coordinateY)
-        spacecraftLiveData.value!!.currentPositionName = station.name
-        spacecraftLiveData.value!!.universalSpaceTime -= distance
-        spacecraftLiveData.value!!.coordinateX = station.coordinateX
-        spacecraftLiveData.value!!.coordinateY = station.coordinateY
-
-        spacecraftLiveData.value!!.enduranceTime -= distance * 1000
-        spacecraftLiveData.value!!.damageCapacity -= 10
-
-        if (spacecraftLiveData.value!!.spaceSuitCount >= station.need) {
-            spacecraftLiveData.value!!.spaceSuitCount -= station.need
-            station.need = 0
-            station.stock = station.capacity
-        } else {
-            spacecraftLiveData.value!!.spaceSuitCount = 0
-            station.need -= spacecraftLiveData.value!!.spaceSuitCount
-            station.stock += spacecraftLiveData.value!!.spaceSuitCount
+        val distance = Util.distanceFormula(
+            station.coordinateX,
+            spacecraftLiveData.value!!.coordinateX,
+            station.coordinateY,
+            spacecraftLiveData.value!!.coordinateY
+        )
+        if (spacecraftLiveData.value!!.universalSpaceTime - distance < station.distanceToSpacecraft) {
+            canGo.postValue(false)
+        } else if (spacecraftLiveData.value!!.spaceSuitCount == 0) {
+            canGo.postValue(false)
         }
-        scope.launch {
-            databaseSpace.stationDao().updateStation(station)
-            databaseSpace.spaceCraftDao().updateSpacecraft(spacecraftLiveData.value!!)
-            spaceStationListLiveData.postValue(databaseSpace.stationDao().getAllStation())
-            spacecraftLiveData.postValue(databaseSpace.spaceCraftDao().getSpacecraft())
+//        else if (spacecraftLiveData.value!!.damageCapacity < 0) {
+//            canGo.postValue(false)
+//        }
+        else if (spacecraftLiveData.value!!.enduranceTime < station.distanceToSpacecraft) {
+            canGo.postValue(false)
+        }
+        else {
+            spacecraftLiveData.value!!.currentPositionName = station.name
+            spacecraftLiveData.value!!.universalSpaceTime -= distance
+            spacecraftLiveData.value!!.coordinateX = station.coordinateX
+            spacecraftLiveData.value!!.coordinateY = station.coordinateY
+            spacecraftLiveData.value!!.enduranceTime -= distance * 1000
+            spacecraftLiveData.value!!.damageCapacity -= 10
+
+            if (spacecraftLiveData.value!!.spaceSuitCount >= station.need) {
+                spacecraftLiveData.value!!.spaceSuitCount -= station.need
+                station.need = 0
+                station.stock = station.capacity
+            } else {
+                spacecraftLiveData.value!!.spaceSuitCount = 0
+                station.need -= spacecraftLiveData.value!!.spaceSuitCount
+                station.stock += spacecraftLiveData.value!!.spaceSuitCount
+            }
+
+            scope.launch {
+                databaseSpace.stationDao().updateStation(station)
+                databaseSpace.spaceCraftDao().updateSpacecraft(spacecraftLiveData.value!!)
+                spacecraftLiveData.postValue(databaseSpace.spaceCraftDao().getSpacecraft())
+                spaceStationListLiveData.postValue(databaseSpace.stationDao().getAllStation())
+            }
         }
     }
 }

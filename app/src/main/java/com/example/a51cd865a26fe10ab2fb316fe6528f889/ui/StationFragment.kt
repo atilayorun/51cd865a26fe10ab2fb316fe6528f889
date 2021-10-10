@@ -26,6 +26,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     private lateinit var viewModel: StationViewModel
     private lateinit var adapter: StationAdapter
     private lateinit var spaceCraft: Spacecraft
+    private var gameOver: Boolean = false
 
     override fun onStart() {
         super.onStart()
@@ -75,7 +76,18 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     }
 
     private fun viewModelSetObserver() {
+        viewModel.canGo.observe(viewLifecycleOwner, {
+            Toast.makeText(context, "Yetersiz kaynaktan dolayı gidilemiyor.", Toast.LENGTH_SHORT)
+                .show()
+        })
+
         viewModel.spacecraftLiveData.observe(viewLifecycleOwner, {
+            spaceCraft = it
+            if (spaceCraft.enduranceTime == 0 || spaceCraft.spaceSuitCount == 0 || spaceCraft.universalSpaceTime == 0) {
+                gameOver = true
+                Toast.makeText(context, "Oyun bitti.", Toast.LENGTH_SHORT)
+                    .show()
+            }
             binding.tvSpaceSuitCount.text = "UGS : ${it.spaceSuitCount}"
             binding.tvUniversalSpaceTime.text = "EUS : ${it.universalSpaceTime}"
             binding.tvEnduranceTime.text = "DS : ${it.enduranceTime}"
@@ -83,7 +95,6 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
             binding.tvDamageCapacity.text = it.damageCapacity.toString()
             binding.tvCurrentStation.text = it.currentPositionName
             binding.tvTime.text = "${it.enduranceTime / 1000}s"
-            spaceCraft = it
         })
 
         viewModel.spaceStationListLiveData.observe(viewLifecycleOwner, {
@@ -161,10 +172,15 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     }
 
     override fun btnTravelSetOnClickListener(station: Station) {
-        if (binding.tvCurrentStation.text != station.name) {
-            viewModel.btnTravelSetOnClick(station)
-        } else
-            Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
+        if (gameOver)
+            Toast.makeText(context, "Oyun bitti.", Toast.LENGTH_SHORT)
                 .show()
+        else {
+            if (binding.tvCurrentStation.text != station.name) {
+                viewModel.btnTravelSetOnClick(station)
+            } else
+                Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
+                    .show()
+        }
     }
 }

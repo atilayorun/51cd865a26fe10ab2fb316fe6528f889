@@ -20,7 +20,7 @@ class StationAdapter(listener: StationAdapterListener) :
     private var stationList = arrayListOf<Station>()
     private lateinit var copyStationList: ArrayList<Station>
     var position: Int = 0
-    private lateinit var context:Context
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemBinding: ItemStationBinding = ItemStationBinding.inflate(
@@ -69,14 +69,7 @@ class StationAdapter(listener: StationAdapterListener) :
             holder.ivFav.setImageResource(R.drawable.ic_star_border_black)
 
         holder.btnTravel.setOnClickListener {
-            if (!item.isActive) {
-                listener.btnTravelSetOnClickListener(item)
-                item.isActive=true
-            }
-            else{
-                Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
-                    .show()
-            }
+            listener.btnTravelSetOnClickListener(item)
         }
 
         holder.ivFav.setOnClickListener {

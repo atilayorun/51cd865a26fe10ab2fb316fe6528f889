@@ -43,7 +43,7 @@ class FavSpaceStationsFragment : Fragment(),
         return view
     }
 
-    private fun viewModelSetObserver(){
+    private fun viewModelSetObserver() {
         viewModel.favSpaceStationListLiveData.observe(viewLifecycleOwner, {
             adapter.setData(it)
         })
@@ -57,16 +57,7 @@ class FavSpaceStationsFragment : Fragment(),
     }
 
     override fun updateStation(station: Station, ivFav: ImageView) {
-        if (station.isFav) {
-            station.isFav = false
-            ivFav.setImageResource(R.drawable.ic_star_border_black)
-            viewModel.updateStation(station)
-            viewModel.getAllFavStation()
-        } else {
-            station.isFav = true
-            ivFav.setImageResource(R.drawable.ic_star_black)
-            viewModel.updateStation(station)
-        }
-
+        station.isFav = false
+        viewModel.updateAndGetAllFavStation(station)
     }
 }
