@@ -35,7 +35,7 @@ class FavSpaceStationsFragment : Fragment(),
         viewModel = ViewModelProvider(this).get(FavSpaceStationsViewModel()::class.java)
         viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
 
-        viewModel.favSpaceStationList.observe(viewLifecycleOwner, {
+        viewModel.favSpaceStationListLiveData.observe(viewLifecycleOwner, {
                 adapter.setData(it)
         })
 
@@ -56,6 +56,7 @@ class FavSpaceStationsFragment : Fragment(),
             station.isFav = false
             ivFav.setImageResource(R.drawable.ic_star_border_black)
             viewModel.updateStation(station)
+            viewModel.getAllFavStation()
         } else {
             station.isFav = true
             ivFav.setImageResource(R.drawable.ic_star_black)

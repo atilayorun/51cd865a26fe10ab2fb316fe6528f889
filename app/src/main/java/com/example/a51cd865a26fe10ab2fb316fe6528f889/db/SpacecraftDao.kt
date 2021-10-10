@@ -6,14 +6,14 @@ import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 @Dao
 interface SpacecraftDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSpacecraft(spacecraft: Spacecraft?)
+    suspend fun insertSpacecraft(spacecraft: Spacecraft?)
 
     @Query("SELECT * FROM fav_spacecraft_table")
-    fun getSpacecraft(): Spacecraft
+    suspend fun getSpacecraft(): Spacecraft
 
     @Query("DELETE FROM fav_spacecraft_table")
-    fun removeSpacecraft()
+    suspend fun removeSpacecraft()
 
     @Update
-    fun updateSpacecraft(spacecraft: Spacecraft)
+    suspend fun updateSpacecraft(spacecraft: Spacecraft)
 }

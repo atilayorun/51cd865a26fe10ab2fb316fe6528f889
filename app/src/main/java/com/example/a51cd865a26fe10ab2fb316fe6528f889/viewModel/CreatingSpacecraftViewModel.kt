@@ -9,16 +9,15 @@ import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class CreatingSpacecraftViewModel : ViewModel() {
     private lateinit var databaseSpace: SpaceStationDatabase
-    val favSpaceStationList = MutableLiveData<List<Station>>()
-    val spaceCraft = MutableLiveData<Spacecraft>()
-    val spaceStationList = MutableLiveData<List<Station>>()
+    val favSpaceStationListLiveData = MutableLiveData<List<Station>>()
+    val spaceCraftLiveData = MutableLiveData<Spacecraft>()
+    val spaceStationListLiveData = MutableLiveData<List<Station>>()
     private val scope = CoroutineScope(Dispatchers.IO)
 
     fun setDb(db: SpaceStationDatabase) {
@@ -46,13 +45,13 @@ class CreatingSpacecraftViewModel : ViewModel() {
 
     fun getFavSpaceStation() {
         scope.launch {
-            favSpaceStationList.postValue(databaseSpace.favSpaceStationDao().getAllFavSpaceStation())
+            favSpaceStationListLiveData.postValue(databaseSpace.favSpaceStationDao().getAllFavSpaceStation())
         }
     }
 
     fun addAllStation() {
         scope.launch {
-            databaseSpace.stationDao().insertAllStation(spaceStationList.value)
+            databaseSpace.stationDao().insertAllStation(spaceStationListLiveData.value)
         }
     }
 
@@ -62,7 +61,7 @@ class CreatingSpacecraftViewModel : ViewModel() {
             override fun onResponse(call: Call<List<Station>>, response: Response<List<Station>>) {
                 if (response.code() == 200) {
                     if (response.isSuccessful) {
-                        spaceStationList.value = response.body()
+                        spaceStationListLiveData.value = response.body()
                     }
                 }
             }

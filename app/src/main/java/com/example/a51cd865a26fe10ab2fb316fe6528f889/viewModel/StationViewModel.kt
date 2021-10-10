@@ -12,10 +12,9 @@ import kotlinx.coroutines.launch
 
 class StationViewModel : ViewModel() {
     private lateinit var databaseSpace: SpaceStationDatabase
-    val spacecraft = MutableLiveData<Spacecraft>()
-    val spaceStationList = MutableLiveData<List<Station>>()
+    val spacecraftLiveData = MutableLiveData<Spacecraft>()
+    val spaceStationListLiveData = MutableLiveData<List<Station>>()
     private val scope = CoroutineScope(Dispatchers.IO)
-    var asdf = 1
 
     fun setDb(db: SpaceStationDatabase) {
         this.databaseSpace = db
@@ -24,19 +23,19 @@ class StationViewModel : ViewModel() {
 
     fun addAllStation() {
         scope.launch {
-            databaseSpace.stationDao().insertAllStation(spaceStationList.value)
+            databaseSpace.stationDao().insertAllStation(spaceStationListLiveData.value)
         }
     }
 
     fun getAllStation() {
         scope.launch {
-            spaceStationList.postValue(databaseSpace.stationDao().getAllStation())
+            spaceStationListLiveData.postValue(databaseSpace.stationDao().getAllStation())
         }
     }
 
     fun getSpacecraft() {
         scope.launch {
-            spacecraft.postValue(databaseSpace.spaceCraftDao().getSpacecraft())
+            spacecraftLiveData.postValue(databaseSpace.spaceCraftDao().getSpacecraft())
         }
     }
 
@@ -53,24 +52,29 @@ class StationViewModel : ViewModel() {
     }
 
     fun btnTravelSetOnClick(station: Station) {
-        spacecraft.value!!.currentPositionName = station.name
-        spacecraft.value!!.universalSpaceTime -= Util.distanceFormula(station.coordinateX,spacecraft.value!!.coordinateX,station.coordinateY,spacecraft.value!!.coordinateY)
-        spacecraft.value!!.coordinateX = station.coordinateX
-        spacecraft.value!!.coordinateY = station.coordinateY
-        if (spacecraft.value!!.spaceSuitCount >= station.need) {
-            spacecraft.value!!.spaceSuitCount -= station.need
+        val distance = Util.distanceFormula(station.coordinateX,spacecraftLiveData.value!!.coordinateX,station.coordinateY,spacecraftLiveData.value!!.coordinateY)
+        spacecraftLiveData.value!!.currentPositionName = station.name
+        spacecraftLiveData.value!!.universalSpaceTime -= distance
+        spacecraftLiveData.value!!.coordinateX = station.coordinateX
+        spacecraftLiveData.value!!.coordinateY = station.coordinateY
+
+        spacecraftLiveData.value!!.enduranceTime -= distance * 1000
+        spacecraftLiveData.value!!.damageCapacity -= 10
+
+        if (spacecraftLiveData.value!!.spaceSuitCount >= station.need) {
+            spacecraftLiveData.value!!.spaceSuitCount -= station.need
             station.need = 0
             station.stock = station.capacity
         } else {
-            spacecraft.value!!.spaceSuitCount = 0
-            station.need -= spacecraft.value!!.spaceSuitCount
-            station.stock += spacecraft.value!!.spaceSuitCount
+            spacecraftLiveData.value!!.spaceSuitCount = 0
+            station.need -= spacecraftLiveData.value!!.spaceSuitCount
+            station.stock += spacecraftLiveData.value!!.spaceSuitCount
         }
         scope.launch {
             databaseSpace.stationDao().updateStation(station)
-            databaseSpace.spaceCraftDao().updateSpacecraft(spacecraft.value!!)
-            spaceStationList.postValue(databaseSpace.stationDao().getAllStation())
-            spacecraft.postValue(databaseSpace.spaceCraftDao().getSpacecraft())
+            databaseSpace.spaceCraftDao().updateSpacecraft(spacecraftLiveData.value!!)
+            spaceStationListLiveData.postValue(databaseSpace.stationDao().getAllStation())
+            spacecraftLiveData.postValue(databaseSpace.spaceCraftDao().getSpacecraft())
         }
     }
 }

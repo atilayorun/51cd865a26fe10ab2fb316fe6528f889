@@ -61,7 +61,7 @@ class StationAdapter(listener: StationAdapterListener) :
         val item = stationList[position]
         holder.tvCapacityAndStock.text = "${item.capacity}/${item.stock}"
         holder.tvStationName.text = item.name
-        holder.tvSpaceSuitCount.text = "${item.name}EUS"
+        holder.tvDistanceToSpacecraft.text = "${item.distanceToSpacecraft}EUS"
         this.position = position
         println(position)
         if (item.isFav)
@@ -94,7 +94,7 @@ class StationAdapter(listener: StationAdapterListener) :
         RecyclerView.ViewHolder(binding.root) {
         val tvCapacityAndStock: TextView = binding.tvCapacityAndStock
         val tvStationName: TextView = binding.tvStationName
-        val tvSpaceSuitCount: TextView = binding.tvSpaceSuitCount
+        val tvDistanceToSpacecraft: TextView = binding.tvDistanceToSpacecraft
         val ivFav: ImageView = binding.ivFav
         val btnTravel: Button = binding.btnTravel
     }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class FavSpaceStationsViewModel : ViewModel() {
     private lateinit var databaseSpace: SpaceStationDatabase
-    val favSpaceStationList = MutableLiveData<List<Station>>()
+    val favSpaceStationListLiveData = MutableLiveData<List<Station>>()
     private val scope = CoroutineScope(Dispatchers.IO)
 
     fun setDb(db: SpaceStationDatabase) {
@@ -19,7 +19,7 @@ class FavSpaceStationsViewModel : ViewModel() {
 
     fun getAllFavStation() {
         scope.launch {
-            favSpaceStationList.postValue(
+            favSpaceStationListLiveData.postValue(
                 databaseSpace.favSpaceStationDao().getAllFavSpaceStation()
             )
         }

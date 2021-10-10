@@ -17,6 +17,7 @@ import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentStation
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.util.Util
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.StationViewModel
 
 class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
@@ -27,6 +28,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     private var currentPositionAdapter = 0
     private lateinit var spaceCraft:Spacecraft
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,34 +36,33 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     ): View? {
         _binding = FragmentStationBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this).get(StationViewModel()::class.java)
 
+        viewModel = ViewModelProvider(this).get(StationViewModel()::class.java)
         viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
         viewModel.getSpacecraft()
+        viewModel.getAllStation()
 
         setupAdapter()
 
-        binding.rvStation.setOnTouchListener(View.OnTouchListener { view, motionEvent ->
-            return@OnTouchListener true
-        })
+//        binding.rvStation.setOnTouchListener(View.OnTouchListener { view, motionEvent ->
+//            return@OnTouchListener true
+//        })
 
-        viewModel.spacecraft.observe(viewLifecycleOwner,{
+        viewModel.spacecraftLiveData.observe(viewLifecycleOwner,{
             binding.tvSpaceSuitCount.text = "UGS : ${it.spaceSuitCount}"
             binding.tvUniversalSpaceTime.text = "EUS : ${it.universalSpaceTime}"
             binding.tvEnduranceTime.text = "DS : ${it.enduranceTime}"
             binding.tvSpaceCraftName.text = it.name
             binding.tvDamageCapacity.text = it.damageCapacity.toString()
-            binding.tvTime.text ="${it.enduranceTime / 1000}s"
             binding.tvCurrentStation.text = it.currentPositionName
+            binding.tvTime.text = "${it.enduranceTime / 1000}s"
             spaceCraft = it
         })
 
-        viewModel.spaceStationList.observe(viewLifecycleOwner, {
+        viewModel.spaceStationListLiveData.observe(viewLifecycleOwner, {
+            it.map { x-> x.distanceToSpacecraft= Util.distanceFormula(x.coordinateX,spaceCraft.coordinateX,x.coordinateY,spaceCraft.coordinateY) }
             adapter.setData(it as ArrayList<Station>)
         })
-
-
-        viewModel.getAllStation()
 
         binding.ivRightArrow.setOnClickListener {
             scrollToNext()
@@ -86,7 +87,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     }
 
     private fun scrollToNext() {
-        if (currentPositionAdapter != viewModel.spaceStationList.value?.size?.minus(1)) {
+        if (currentPositionAdapter != viewModel.spaceStationListLiveData.value?.size?.minus(1)) {
             ++currentPositionAdapter
             binding.rvStation.layoutManager?.smoothScrollToPosition(
                 binding.rvStation,
