@@ -41,7 +41,7 @@ class StationViewModel : ViewModel() {
             station.coordinateY,
             spacecraftLiveData.value!!.coordinateY
         )
-        if (spacecraftLiveData.value!!.universalSpaceTime - distance < station.distanceToSpacecraft) {
+        if (spacecraftLiveData.value!!.universalSpaceTime < distance) {
             canGo.postValue(false)
         } else if (spacecraftLiveData.value!!.spaceSuitCount == 0) {
             canGo.postValue(false)
@@ -49,7 +49,7 @@ class StationViewModel : ViewModel() {
 //        else if (spacecraftLiveData.value!!.damageCapacity < 0) {
 //            canGo.postValue(false)
 //        }
-        else if (spacecraftLiveData.value!!.enduranceTime < station.distanceToSpacecraft) {
+        else if (spacecraftLiveData.value!!.enduranceTime < station.distanceToSpacecraft*1000) {
             canGo.postValue(false)
         }
         else {

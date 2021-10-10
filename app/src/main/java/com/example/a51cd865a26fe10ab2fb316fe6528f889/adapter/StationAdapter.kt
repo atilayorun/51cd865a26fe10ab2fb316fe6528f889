@@ -2,6 +2,7 @@ package com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
@@ -68,15 +69,31 @@ class StationAdapter(listener: StationAdapterListener) :
         else
             holder.ivFav.setImageResource(R.drawable.ic_star_border_black)
 
+        if(position == 0)
+            holder.ivLeftArrow.visibility = View.INVISIBLE
+        else
+            holder.ivLeftArrow.visibility = View.VISIBLE
+
+        if(position == stationList.size -1)
+            holder.ivRightArrow.visibility = View.INVISIBLE
+        else
+            holder.ivRightArrow.visibility = View.VISIBLE
+
         holder.btnTravel.setOnClickListener {
             listener.btnTravelSetOnClickListener(item)
         }
-
         holder.ivFav.setOnClickListener {
             listener.imgStarOnClickListener(
                 item,
                 holder.ivFav
             )
+        }
+        holder.ivRightArrow.setOnClickListener {
+            listener.scrollToNext(position + 1)
+        }
+
+        holder.ivLeftArrow.setOnClickListener {
+            listener.scrollToPrevious(position - 1)
         }
     }
 
@@ -89,11 +106,15 @@ class StationAdapter(listener: StationAdapterListener) :
         val tvDistanceToSpacecraft: TextView = binding.tvDistanceToSpacecraft
         val ivFav: ImageView = binding.ivFav
         val btnTravel: Button = binding.btnTravel
+        val ivLeftArrow : ImageView = binding.ivLeftArrow
+        val ivRightArrow : ImageView = binding.ivRightArrow
     }
 
     interface StationAdapterListener {
         fun imgStarOnClickListener(station: Station, ivStar: ImageView)
         fun btnTravelSetOnClickListener(station: Station)
+        fun scrollToNext(position: Int)
+        fun scrollToPrevious(position: Int)
     }
 }
 

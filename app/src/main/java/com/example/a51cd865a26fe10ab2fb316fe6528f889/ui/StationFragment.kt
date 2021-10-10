@@ -19,6 +19,7 @@ import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.util.Util
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.StationViewModel
+import java.text.FieldPosition
 
 class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     private var _binding: FragmentStationBinding? = null
@@ -55,14 +56,6 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     }
 
     private fun listeners() {
-        binding.ivRightArrow.setOnClickListener {
-            scrollToNext()
-        }
-
-        binding.ivLeftArrow.setOnClickListener {
-            scrollToPrevious()
-        }
-
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
@@ -83,8 +76,9 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
 
         viewModel.spacecraftLiveData.observe(viewLifecycleOwner, {
             spaceCraft = it
-            if (spaceCraft.enduranceTime == 0 || spaceCraft.spaceSuitCount == 0 || spaceCraft.universalSpaceTime == 0) {
+            if (spaceCraft.damageCapacity == 0 || spaceCraft.enduranceTime == 0 || spaceCraft.spaceSuitCount == 0 || spaceCraft.universalSpaceTime == 0) {
                 gameOver = true
+                it.currentPositionName = "Dünya"
                 Toast.makeText(context, "Oyun bitti.", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -110,45 +104,13 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
         })
     }
 
-    private fun imgNextOrPreviousControl(currentPosition: Int) {
-        if (currentPosition == 0)
-            binding.ivLeftArrow.visibility = View.INVISIBLE
-        else
-            binding.ivLeftArrow.visibility = View.VISIBLE
 
-        if (currentPosition == viewModel.spaceStationListLiveData.value?.size?.minus(1))
-            binding.ivRightArrow.visibility = View.INVISIBLE
-        else
-            binding.ivRightArrow.visibility = View.VISIBLE
+    override fun scrollToNext(position: Int) {
+        binding.rvStation.smoothScrollToPosition(position)
     }
 
-    private fun scrollToNext() {
-        var currentPosition =
-            (binding.rvStation.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-        ++currentPosition
-        imgNextOrPreviousControl(currentPosition)
-
-        if (currentPosition != 0) {
-            binding.rvStation.layoutManager?.smoothScrollToPosition(
-                binding.rvStation,
-                RecyclerView.State(),
-                currentPosition
-            )
-        }
-    }
-
-    private fun scrollToPrevious() {
-        var currentPosition =
-            (binding.rvStation.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-        --currentPosition
-        imgNextOrPreviousControl(currentPosition)
-        if (currentPosition != viewModel.spaceStationListLiveData.value?.size) {
-            binding.rvStation.layoutManager?.smoothScrollToPosition(
-                binding.rvStation,
-                RecyclerView.State(),
-                currentPosition
-            )
-        }
+    override fun scrollToPrevious(position: Int) {
+        binding.rvStation.smoothScrollToPosition(position)
     }
 
     private fun setupAdapter() {
