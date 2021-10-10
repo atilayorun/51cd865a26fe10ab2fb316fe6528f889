@@ -100,7 +100,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/ic_chevron_left_black"
             android:tint="#000000"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/rv_station"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/rv_station" />

@@ -14,5 +14,5 @@ data class Station(
     var need: Int,
     var isFav: Boolean = false,
     var isActive: Boolean = false,
-    var distanceToSpacecraft:Int
+    var distanceToSpacecraft: Int
 )

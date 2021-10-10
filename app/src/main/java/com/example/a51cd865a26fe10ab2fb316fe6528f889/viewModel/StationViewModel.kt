@@ -20,22 +20,10 @@ class StationViewModel : ViewModel() {
         this.databaseSpace = db
     }
 
-
-    fun addAllStation() {
-        scope.launch {
-            databaseSpace.stationDao().insertAllStation(spaceStationListLiveData.value)
-        }
-    }
-
-    fun getAllStation() {
-        scope.launch {
-            spaceStationListLiveData.postValue(databaseSpace.stationDao().getAllStation())
-        }
-    }
-
-    fun getSpacecraft() {
+    fun getAllData(){
         scope.launch {
             spacecraftLiveData.postValue(databaseSpace.spaceCraftDao().getSpacecraft())
+            spaceStationListLiveData.postValue(databaseSpace.stationDao().getAllStation())
         }
     }
 

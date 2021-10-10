@@ -1,26 +1,22 @@
 package com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.ItemFavStationBinding
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.ItemStationBinding
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
-import kotlinx.android.synthetic.main.item_fav_station.view.*
-import kotlinx.android.synthetic.main.item_station.view.tv_stationName
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.util.Util
 
 class FavSpaceStationsAdapter(listener: FavSpaceStationsAdapterListener): RecyclerView.Adapter<FavSpaceStationsAdapter.ViewHolder>(){
     var listener: FavSpaceStationsAdapterListener = listener
-    private var stationList: List<Station> = listOf()
+    private var favStationList: List<Station> = listOf()
 
     inner class ViewHolder(val binding: ItemFavStationBinding) : RecyclerView.ViewHolder(binding.root){
         val tvStationName: TextView = binding.tvStationName
         val tvUniversalSpaceTime: TextView = binding.tvUniversalSpaceTime
+        val tvCapacityAndStock: TextView = binding.tvCapacityAndStock
         val ivFav:ImageView = binding.ivFav2
     }
 
@@ -34,21 +30,23 @@ class FavSpaceStationsAdapter(listener: FavSpaceStationsAdapterListener): Recycl
     }
 
     fun setData(stationList: List<Station>) {
-        this.stationList = stationList
+        this.favStationList = stationList
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = stationList[position]
+        val item = favStationList[position]
         holder.tvStationName.text = item.name
-        holder.tvUniversalSpaceTime.text = "500EUS"
+        val distance = Util.distanceFormula(item.coordinateX,0.0,item.coordinateY,0.0)
+        holder.tvUniversalSpaceTime.text = "$distance EUS"
+        holder.tvCapacityAndStock.text = "${favStationList[position].capacity}/${favStationList[position].stock}"
         holder.ivFav.setOnClickListener {
             listener.updateStation(item,holder.ivFav)
         }
     }
 
     override fun getItemCount(): Int {
-        return stationList.size
+        return favStationList.size
     }
 
     interface FavSpaceStationsAdapterListener {

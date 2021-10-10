@@ -24,6 +24,13 @@ class FavSpaceStationsFragment : Fragment(),
     private lateinit var adapter: FavSpaceStationsAdapter
 
 
+    override fun onStart() {
+        super.onStart()
+        setupAdapter()
+        viewModelSetObserver()
+        viewModel.getAllFavStation()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,17 +38,15 @@ class FavSpaceStationsFragment : Fragment(),
     ): View? {
         _binding = FragmentFavSpaceStationsBinding.inflate(inflater, container, false)
         val view = binding.root
-        setupAdapter()
         viewModel = ViewModelProvider(this).get(FavSpaceStationsViewModel()::class.java)
         viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
-
-        viewModel.favSpaceStationListLiveData.observe(viewLifecycleOwner, {
-                adapter.setData(it)
-        })
-
-        viewModel.getAllFavStation()
-
         return view
+    }
+
+    private fun viewModelSetObserver(){
+        viewModel.favSpaceStationListLiveData.observe(viewLifecycleOwner, {
+            adapter.setData(it)
+        })
     }
 
     private fun setupAdapter() {

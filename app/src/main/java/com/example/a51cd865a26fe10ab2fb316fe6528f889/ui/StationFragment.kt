@@ -25,9 +25,18 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     private val binding get() = _binding!!
     private lateinit var viewModel: StationViewModel
     private lateinit var adapter: StationAdapter
-    private var currentPositionAdapter = 0
-    private lateinit var spaceCraft:Spacecraft
+    private lateinit var spaceCraft: Spacecraft
 
+    override fun onStart() {
+        super.onStart()
+        setupAdapter()
+
+        viewModelSetObserver()
+
+        listeners()
+
+        viewModel.getAllData()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,31 +48,12 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
 
         viewModel = ViewModelProvider(this).get(StationViewModel()::class.java)
         viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
-        viewModel.getSpacecraft()
-        viewModel.getAllStation()
 
-        setupAdapter()
 
-//        binding.rvStation.setOnTouchListener(View.OnTouchListener { view, motionEvent ->
-//            return@OnTouchListener true
-//        })
+        return view
+    }
 
-        viewModel.spacecraftLiveData.observe(viewLifecycleOwner,{
-            binding.tvSpaceSuitCount.text = "UGS : ${it.spaceSuitCount}"
-            binding.tvUniversalSpaceTime.text = "EUS : ${it.universalSpaceTime}"
-            binding.tvEnduranceTime.text = "DS : ${it.enduranceTime}"
-            binding.tvSpaceCraftName.text = it.name
-            binding.tvDamageCapacity.text = it.damageCapacity.toString()
-            binding.tvCurrentStation.text = it.currentPositionName
-            binding.tvTime.text = "${it.enduranceTime / 1000}s"
-            spaceCraft = it
-        })
-
-        viewModel.spaceStationListLiveData.observe(viewLifecycleOwner, {
-            it.map { x-> x.distanceToSpacecraft= Util.distanceFormula(x.coordinateX,spaceCraft.coordinateX,x.coordinateY,spaceCraft.coordinateY) }
-            adapter.setData(it as ArrayList<Station>)
-        })
-
+    private fun listeners() {
         binding.ivRightArrow.setOnClickListener {
             scrollToNext()
         }
@@ -82,28 +72,70 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
                 return false
             }
         })
+    }
 
-        return view
+    private fun viewModelSetObserver() {
+        viewModel.spacecraftLiveData.observe(viewLifecycleOwner, {
+            binding.tvSpaceSuitCount.text = "UGS : ${it.spaceSuitCount}"
+            binding.tvUniversalSpaceTime.text = "EUS : ${it.universalSpaceTime}"
+            binding.tvEnduranceTime.text = "DS : ${it.enduranceTime}"
+            binding.tvSpaceCraftName.text = it.name
+            binding.tvDamageCapacity.text = it.damageCapacity.toString()
+            binding.tvCurrentStation.text = it.currentPositionName
+            binding.tvTime.text = "${it.enduranceTime / 1000}s"
+            spaceCraft = it
+        })
+
+        viewModel.spaceStationListLiveData.observe(viewLifecycleOwner, {
+            it.map { x ->
+                x.distanceToSpacecraft = Util.distanceFormula(
+                    x.coordinateX,
+                    spaceCraft.coordinateX,
+                    x.coordinateY,
+                    spaceCraft.coordinateY
+                )
+            }
+            adapter.setData(it as ArrayList<Station>)
+        })
+    }
+
+    private fun imgNextOrPreviousControl(currentPosition: Int) {
+        if (currentPosition == 0)
+            binding.ivLeftArrow.visibility = View.INVISIBLE
+        else
+            binding.ivLeftArrow.visibility = View.VISIBLE
+
+        if (currentPosition == viewModel.spaceStationListLiveData.value?.size?.minus(1))
+            binding.ivRightArrow.visibility = View.INVISIBLE
+        else
+            binding.ivRightArrow.visibility = View.VISIBLE
     }
 
     private fun scrollToNext() {
-        if (currentPositionAdapter != viewModel.spaceStationListLiveData.value?.size?.minus(1)) {
-            ++currentPositionAdapter
+        var currentPosition =
+            (binding.rvStation.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        ++currentPosition
+        imgNextOrPreviousControl(currentPosition)
+
+        if (currentPosition != 0) {
             binding.rvStation.layoutManager?.smoothScrollToPosition(
                 binding.rvStation,
                 RecyclerView.State(),
-                currentPositionAdapter
+                currentPosition
             )
         }
     }
 
     private fun scrollToPrevious() {
-        if (currentPositionAdapter != 0) {
-            --currentPositionAdapter
+        var currentPosition =
+            (binding.rvStation.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+        --currentPosition
+        imgNextOrPreviousControl(currentPosition)
+        if (currentPosition != viewModel.spaceStationListLiveData.value?.size) {
             binding.rvStation.layoutManager?.smoothScrollToPosition(
                 binding.rvStation,
                 RecyclerView.State(),
-                currentPositionAdapter
+                currentPosition
             )
         }
     }
@@ -129,10 +161,9 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     }
 
     override fun btnTravelSetOnClickListener(station: Station) {
-        if(binding.tvCurrentStation.text != station.name){
+        if (binding.tvCurrentStation.text != station.name) {
             viewModel.btnTravelSetOnClick(station)
-        }
-        else
+        } else
             Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
                 .show()
     }

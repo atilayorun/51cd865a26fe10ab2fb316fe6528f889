@@ -63,7 +63,6 @@ class StationAdapter(listener: StationAdapterListener) :
         holder.tvStationName.text = item.name
         holder.tvDistanceToSpacecraft.text = "${item.distanceToSpacecraft}EUS"
         this.position = position
-        println(position)
         if (item.isFav)
             holder.ivFav.setImageResource(R.drawable.ic_star_black)
         else
