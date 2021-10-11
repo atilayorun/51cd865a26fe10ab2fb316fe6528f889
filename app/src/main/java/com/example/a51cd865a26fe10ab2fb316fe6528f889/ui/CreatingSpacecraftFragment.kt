@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentCreatingSpacecraftBinding
@@ -16,11 +16,13 @@ import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.CreatingSpacecraftViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CreatingSpacecraftFragment : Fragment() {
     private var _binding: FragmentCreatingSpacecraftBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: CreatingSpacecraftViewModel
+    private val viewModel: CreatingSpacecraftViewModel by viewModels()
     private var totalPoint = 0
     private var durabilityPoint: Int = 0
     private var speedPoint: Int = 0
@@ -37,7 +39,6 @@ class CreatingSpacecraftFragment : Fragment() {
         _binding = FragmentCreatingSpacecraftBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        viewModel = ViewModelProvider(this).get(CreatingSpacecraftViewModel()::class.java)
         viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
 
         return view

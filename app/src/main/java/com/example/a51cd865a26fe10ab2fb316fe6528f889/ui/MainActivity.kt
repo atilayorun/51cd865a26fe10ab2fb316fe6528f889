@@ -3,7 +3,9 @@ package com.example.a51cd865a26fe10ab2fb316fe6528f889.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

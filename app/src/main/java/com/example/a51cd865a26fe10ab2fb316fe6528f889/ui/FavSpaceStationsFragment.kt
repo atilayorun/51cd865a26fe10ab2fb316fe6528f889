@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter.FavSpaceStationsAdapter
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentFavSpaceStationsBinding
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.FavSpaceStationsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class FavSpaceStationsFragment : Fragment(),
     FavSpaceStationsAdapter.FavSpaceStationsAdapterListener {
     private var _binding: FragmentFavSpaceStationsBinding? = null

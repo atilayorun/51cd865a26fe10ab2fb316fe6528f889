@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
 class HomeScreenFragment : Fragment() {
     private var _binding: FragmentHomeScreenBinding? = null

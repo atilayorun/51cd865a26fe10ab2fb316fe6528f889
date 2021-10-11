@@ -19,6 +19,7 @@ import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.util.Util
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.StationViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.FieldPosition
 
 class StationFragment : Fragment(), StationAdapter.StationAdapterListener {

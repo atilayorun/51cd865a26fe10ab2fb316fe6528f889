@@ -1,14 +1,16 @@
 package com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.api.ApiClient
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.repository.MainRepository
 import kotlinx.coroutines.*
 
-class CreatingSpacecraftViewModel : ViewModel() {
+class CreatingSpacecraftViewModel @ViewModelInject constructor(private val mainRepository: MainRepository) :
+    ViewModel() {
     private lateinit var databaseSpace: SpaceStationDatabase
     val favSpaceStationListLiveData = MutableLiveData<List<Station>>()
     val spaceCraftLiveData = MutableLiveData<Spacecraft>()
@@ -56,16 +58,12 @@ class CreatingSpacecraftViewModel : ViewModel() {
 
     fun getAllStationFromAPI() {
         scope.launch {
-            try {
-                val response = ApiClient.instance.getStationList()
-                if (response.isSuccessful && response.body() != null) {
-                    spaceStationListLiveData.postValue(response.body())
-                } else {
+            mainRepository.getStationList().let {
+                if (it.isSuccessful)
+                    spaceStationListLiveData.postValue(it.body())
+                else
                     apiOnFailure.postValue(true)
-                }
-            } catch (e: Exception) {
-                apiOnFailure.postValue(true)
-                println("hata ! ${e.message}")
+
             }
         }
     }
