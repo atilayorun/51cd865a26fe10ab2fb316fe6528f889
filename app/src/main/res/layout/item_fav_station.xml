@@ -20,7 +20,7 @@
         android:text=""
         android:textColor="#070707"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/iv_fav2"
+        app:layout_constraintEnd_toStartOf="@+id/iv_favBlack"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,9 +56,10 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_universalSpaceTime" />
 
     <ImageView
-        android:id="@+id/iv_fav2"
+        android:id="@+id/iv_favBlack"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:contentDescription="@string/favori_icon"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_stationName"

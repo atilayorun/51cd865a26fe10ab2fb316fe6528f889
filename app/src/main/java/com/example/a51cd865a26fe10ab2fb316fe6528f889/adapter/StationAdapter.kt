@@ -99,7 +99,7 @@ class StationAdapter(listener: StationAdapterListener) :
 
     override fun getItemCount(): Int = stationList.size
 
-    inner class ViewHolder(val binding: ItemStationBinding) :
+    inner class ViewHolder(binding: ItemStationBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tvCapacityAndStock: TextView = binding.tvCapacityAndStock
         val tvStationName: TextView = binding.tvStationName

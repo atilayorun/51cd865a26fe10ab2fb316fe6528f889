@@ -85,7 +85,7 @@ class CreatingSpacecraftFragment : Fragment() {
     private fun listeners() {
         fun updateValue() {
             totalPoint = durabilityPoint + speedPoint + capacityPoint
-            binding.tvPoint.text = "Dağıtılacak Puan : ${totalPoint}"
+            binding.tvPoint.text = "$totalPoint"
         }
         binding.sbDurability.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {

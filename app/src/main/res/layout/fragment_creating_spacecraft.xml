@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <View
-            android:id="@+id/divider3"
+            android:id="@+id/black_underline"
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:layout_marginStart="10dp"
@@ -22,7 +22,7 @@
             android:background="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_point" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_pointText" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_continue"
@@ -33,7 +33,7 @@
             android:layout_marginBottom="20dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:text="Devam Et"
+            android:text="@string/btn_continue"
             android:textAllCaps="false"
             android:textColor="#000000"
             android:textSize="15sp"
@@ -49,17 +49,35 @@
 
         <TextView
             android:id="@+id/tv_point"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/lato_regular"
+            android:singleLine="true"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="2dp"
+            android:background="@drawable/rounded_edittext"
+            android:text="@string/point"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            app:layout_constraintStart_toEndOf="@+id/tv_pointText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_pointText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="25dp"
             android:fontFamily="@font/lato_regular"
             android:singleLine="true"
-            android:text="Dağıtılacak Puan : 0"
+            android:text="@string/points_to_be_distributed"
             android:textColor="#000000"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,23 +88,24 @@
             android:layout_marginTop="35dp"
             android:background="@drawable/rounded_edittext"
             android:fontFamily="@font/lato_medium"
-            android:hint="Uzay Aracı Adı"
+            android:hint="@string/spacecraft_name"
             android:inputType="textEmailAddress"
+            android:autofillHints=""
             android:padding="10dp"
             android:textColor="#8D97AA"
             android:textColorHint="#8D97AA"
             android:textColorLink="#8D97AA"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_point"
-            app:layout_constraintStart_toStartOf="@+id/tv_point"
-            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+            app:layout_constraintEnd_toEndOf="@+id/black_underline"
+            app:layout_constraintStart_toStartOf="@+id/black_underline"
+            app:layout_constraintTop_toBottomOf="@+id/black_underline" />
 
         <TextView
             android:id="@+id/tv_durability"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
-            android:text="Dayanıklılık"
+            android:text="@string/durability"
             android:textColor="#8D97AA"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/edt_stationName"
@@ -111,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
-            android:text="Hız"
+            android:text="@string/speed"
             android:textColor="#8D97AA"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/edt_stationName"
@@ -136,7 +155,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
-            android:text="Kapasite"
+            android:text="@string/capacity"
             android:textColor="#8D97AA"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/edt_stationName"
@@ -155,6 +174,7 @@
             app:layout_constraintEnd_toEndOf="@+id/edt_stationName"
             app:layout_constraintStart_toStartOf="@+id/tv_durability"
             app:layout_constraintTop_toBottomOf="@+id/tv_capacity" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

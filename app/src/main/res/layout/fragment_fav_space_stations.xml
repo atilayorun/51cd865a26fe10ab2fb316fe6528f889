@@ -7,7 +7,7 @@
     tools:context=".ui.FavSpaceStationsFragment">
 
     <View
-        android:id="@+id/divider2"
+        android:id="@+id/black_underline"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:layout_marginStart="10dp"
@@ -27,7 +27,7 @@
         android:layout_marginEnd="25dp"
         android:fontFamily="@font/lato_regular"
         android:singleLine="true"
-        android:text="Favoriler"
+        android:text="@string/favorites"
         android:textColor="#000000"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,5 +42,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+        app:layout_constraintTop_toBottomOf="@+id/black_underline" />
 </androidx.constraintlayout.widget.ConstraintLayout>

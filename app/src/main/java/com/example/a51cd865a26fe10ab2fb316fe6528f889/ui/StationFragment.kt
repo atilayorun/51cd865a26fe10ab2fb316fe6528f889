@@ -77,7 +77,11 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
             if (spaceCraft.damageCapacity == 0 || spaceCraft.enduranceTime == 0 || spaceCraft.spaceSuitCount == 0 || spaceCraft.universalSpaceTime == 0) {
                 gameOver = true
                 it.currentPositionName = "Dünya"
-                Toast.makeText(context, "Oyun bitti.", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    context,
+                    "Oyun bitti. Tekrardan başlamak için ilk sayfaya dönün",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
             binding.tvSpaceSuitCount.text = "UGS : ${it.spaceSuitCount}"
@@ -136,11 +140,19 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
             Toast.makeText(context, "Oyun bitti.", Toast.LENGTH_SHORT)
                 .show()
         else {
-            if (binding.tvCurrentStation.text != station.name) {
-                viewModel.btnTravelSetOnClick(station)
-            } else
-                Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
+            when {
+                binding.tvCurrentStation.text == station.name -> Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
                     .show()
+                station.capacity == station.stock -> Toast.makeText(
+                    context,
+                    "Gittiğiniz istasyona tekrardan gidemezsiniz.",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                binding.tvCurrentStation.text != station.name -> {
+                    viewModel.btnTravelSetOnClick(station)
+                }
+            }
         }
     }
 }

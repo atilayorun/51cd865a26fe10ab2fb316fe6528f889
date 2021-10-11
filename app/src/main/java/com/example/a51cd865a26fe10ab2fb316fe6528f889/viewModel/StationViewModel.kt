@@ -59,16 +59,18 @@ class StationViewModel : ViewModel() {
             spacecraftLiveData.value!!.coordinateY = station.coordinateY
             spacecraftLiveData.value!!.enduranceTime -= distance * 1000
             spacecraftLiveData.value!!.damageCapacity -= 10
+            station.need = 0
+            station.stock = station.capacity
 
-            if (spacecraftLiveData.value!!.spaceSuitCount >= station.need) {
-                spacecraftLiveData.value!!.spaceSuitCount -= station.need
-                station.need = 0
-                station.stock = station.capacity
-            } else {
-                spacecraftLiveData.value!!.spaceSuitCount = 0
-                station.need -= spacecraftLiveData.value!!.spaceSuitCount
-                station.stock += spacecraftLiveData.value!!.spaceSuitCount
-            }
+//            if (spacecraftLiveData.value!!.spaceSuitCount >= station.need) {
+//                spacecraftLiveData.value!!.spaceSuitCount -= station.need
+//                station.need = 0
+//                station.stock = station.capacity
+//            } else {
+//                spacecraftLiveData.value!!.spaceSuitCount = 0
+//                station.need -= spacecraftLiveData.value!!.spaceSuitCount
+//                station.stock += spacecraftLiveData.value!!.spaceSuitCount
+//            }
 
             scope.launch {
                 databaseSpace.stationDao().updateStation(station)

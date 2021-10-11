@@ -3,4 +3,17 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btn_continue">Devam Et</string>
+    <string name="points_to_be_distributed">Dağıtılacak Puan : </string>
+    <string name="point">0</string>
+    <string name="spacecraft_name">Uzay Aracı Adı</string>
+    <string name="durability">Dayanıklılık</string>
+    <string name="speed">Hız</string>
+    <string name="capacity">Kapasite</string>
+    <string name="favorites">Favoriler</string>
+    <string name="travel">Git</string>
+    <string name="rightclick">rightClick</string>
+    <string name="leftclick">leftClick</string>
+    <string name="icon_fav">icon_fav</string>
+    <string name="favori_icon">favoriIcon</string>
 </resources>

@@ -18,7 +18,7 @@ class FavSpaceStationsAdapter(listener: FavSpaceStationsAdapterListener): Recycl
         val tvStationName: TextView = binding.tvStationName
         val tvUniversalSpaceTime: TextView = binding.tvUniversalSpaceTime
         val tvCapacityAndStock: TextView = binding.tvCapacityAndStock
-        val ivFav:ImageView = binding.ivFav2
+        val ivFav:ImageView = binding.ivFavBlack
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

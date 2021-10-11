@@ -22,7 +22,7 @@ class HomeScreenFragment : Fragment() {
         val view = binding.root
 
 
-        val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.fragment3) as? NavHostFragment
+        val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.navHostFragment) as? NavHostFragment
         val navController = nestedNavHostFragment?.navController
         val bottomNavigationView = view.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         if (navController != null) {
