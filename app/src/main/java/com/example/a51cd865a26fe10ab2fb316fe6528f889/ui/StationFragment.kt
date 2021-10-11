@@ -8,24 +8,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter.StationAdapter
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentStationBinding
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.util.Util
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.StationViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.FieldPosition
 
+@AndroidEntryPoint
 class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     private var _binding: FragmentStationBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: StationViewModel
+    private val viewModel: StationViewModel by viewModels()
     private lateinit var adapter: StationAdapter
     private lateinit var spaceCraft: Spacecraft
     private var gameOver: Boolean = false
@@ -46,9 +44,6 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     ): View? {
         _binding = FragmentStationBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        viewModel = ViewModelProvider(this).get(StationViewModel()::class.java)
-        viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
 
 
         return view
@@ -80,7 +75,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
                 it.currentPositionName = "Dünya"
                 Toast.makeText(
                     context,
-                    "Oyun bitti. Tekrardan başlamak için ilk sayfaya dönün",
+                    "Oyun bitti. Tekrardan başlamak için ilk sayfaya dönün.",
                     Toast.LENGTH_SHORT
                 )
                     .show()
@@ -138,7 +133,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
 
     override fun btnTravelSetOnClickListener(station: Station) {
         if (gameOver)
-            Toast.makeText(context, "Oyun bitti.", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Oyun bitti. Tekrardan başlamak için ilk sayfaya dönün.", Toast.LENGTH_SHORT)
                 .show()
         else {
             when {

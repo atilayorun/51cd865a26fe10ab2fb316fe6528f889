@@ -10,8 +10,14 @@ interface StationDao {
     suspend fun getAllStation(): List<Station>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllStation(station: List<Station?>?)
+    suspend fun insertAllStation(stationList: List<Station?>?)
 
     @Update
     suspend fun updateStation(station: Station)
+
+    @Query("SELECT * FROM fav_station_table WHERE isFav =:isFav")
+    suspend fun getAllFavSpaceStation(isFav: Boolean = true): List<Station>
+
+    @Query("DELETE FROM fav_spacecraft_table")
+    suspend fun removeFavSpaceStation()
 }

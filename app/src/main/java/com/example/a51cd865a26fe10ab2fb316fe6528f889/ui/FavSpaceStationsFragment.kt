@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter.FavSpaceStationsAdapter
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentFavSpaceStationsBinding
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.FavSpaceStationsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +20,7 @@ class FavSpaceStationsFragment : Fragment(),
     FavSpaceStationsAdapter.FavSpaceStationsAdapterListener {
     private var _binding: FragmentFavSpaceStationsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: FavSpaceStationsViewModel
+    private val viewModel: FavSpaceStationsViewModel by viewModels()
     private lateinit var adapter: FavSpaceStationsAdapter
 
 
@@ -38,8 +38,6 @@ class FavSpaceStationsFragment : Fragment(),
     ): View? {
         _binding = FragmentFavSpaceStationsBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModel = ViewModelProvider(this).get(FavSpaceStationsViewModel()::class.java)
-        viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
         return view
     }
 

@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentCreatingSpacecraftBinding
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.CreatingSpacecraftViewModel
@@ -39,7 +38,7 @@ class CreatingSpacecraftFragment : Fragment() {
         _binding = FragmentCreatingSpacecraftBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
+//        viewModel.setDb(context?.let { RoomDatabase.getStationDatabase(it) }!!)
 
         return view
     }
