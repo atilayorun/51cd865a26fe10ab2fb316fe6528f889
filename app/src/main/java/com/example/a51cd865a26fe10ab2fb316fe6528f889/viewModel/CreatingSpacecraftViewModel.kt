@@ -2,22 +2,20 @@ package com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.api.ApiClient
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.*
 
 class CreatingSpacecraftViewModel : ViewModel() {
     private lateinit var databaseSpace: SpaceStationDatabase
     val favSpaceStationListLiveData = MutableLiveData<List<Station>>()
     val spaceCraftLiveData = MutableLiveData<Spacecraft>()
     val spaceStationListLiveData = MutableLiveData<List<Station>>()
+    val apiOnFailure = MutableLiveData<Boolean>()
+
     private val scope = CoroutineScope(Dispatchers.IO)
 
     fun setDb(db: SpaceStationDatabase) {
@@ -45,7 +43,9 @@ class CreatingSpacecraftViewModel : ViewModel() {
 
     fun getFavSpaceStation() {
         scope.launch {
-            favSpaceStationListLiveData.postValue(databaseSpace.favSpaceStationDao().getAllFavSpaceStation())
+            favSpaceStationListLiveData.postValue(
+                databaseSpace.favSpaceStationDao().getAllFavSpaceStation()
+            )
         }
     }
 
@@ -56,21 +56,18 @@ class CreatingSpacecraftViewModel : ViewModel() {
     }
 
     fun getAllStationFromAPI() {
-        val call = ApiClient.instance.getStationList()
-        call.enqueue(object : Callback<List<Station>> {
-            override fun onResponse(call: Call<List<Station>>, response: Response<List<Station>>) {
-                if (response.code() == 200) {
-                    if (response.isSuccessful) {
-                        spaceStationListLiveData.value = response.body()
-                    }
+        scope.launch {
+            try {
+                val response = ApiClient.instance.getStationList()
+                if (response.isSuccessful && response.body() != null) {
+                    spaceStationListLiveData.postValue(response.body())
+                } else {
+                    apiOnFailure.postValue(true)
                 }
+            } catch (e: Exception) {
+                apiOnFailure.postValue(true)
+                println("hata ! ${e.message}")
             }
-
-            override fun onFailure(call: Call<List<Station>>, t: Throwable) {
-                val msg = t.message
-                val msg2 = t.localizedMessage
-                println("hata")
-            }
-        })
+        }
     }
 }

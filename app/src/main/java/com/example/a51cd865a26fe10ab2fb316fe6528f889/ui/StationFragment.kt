@@ -32,9 +32,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     override fun onStart() {
         super.onStart()
         setupAdapter()
-
         viewModelSetObserver()
-
         listeners()
 
         viewModel.getAllData()

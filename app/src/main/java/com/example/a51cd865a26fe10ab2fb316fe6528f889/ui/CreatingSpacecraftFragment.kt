@@ -25,7 +25,7 @@ class CreatingSpacecraftFragment : Fragment() {
     private var durabilityPoint: Int = 0
     private var speedPoint: Int = 0
     private var capacityPoint: Int = 0
-    private lateinit var progressDialog : ProgressDialog
+    private lateinit var progressDialog: ProgressDialog
     private lateinit var station: Station
 
     override fun onCreateView(
@@ -34,20 +34,31 @@ class CreatingSpacecraftFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setProgressDialog()
+        _binding = FragmentCreatingSpacecraftBinding.inflate(inflater, container, false)
+        val view = binding.root
+
         viewModel = ViewModelProvider(this).get(CreatingSpacecraftViewModel()::class.java)
         viewModel.setDb(context?.let { SpaceStationDatabase.getStationDatabase(it) }!!)
 
-//        viewModel.getSpacecraft()
+        return view
+    }
+
+    override fun onStart() {
+        viewModelSetObserver()
+        listeners()
         viewModel.getFavSpaceStation()
         viewModel.getAllStationFromAPI()
+        super.onStart()
+    }
 
-        viewModel.spaceCraftLiveData.observe(viewLifecycleOwner,{
+    private fun viewModelSetObserver() {
+        viewModel.spaceCraftLiveData.observe(viewLifecycleOwner, {
             it.let {
                 viewModel.removeSpacecraft()
             }
         })
 
-        viewModel.favSpaceStationListLiveData.observe(viewLifecycleOwner,{
+        viewModel.favSpaceStationListLiveData.observe(viewLifecycleOwner, {
             it.let {
                 viewModel.removeFavSpaceStation()
             }
@@ -59,43 +70,23 @@ class CreatingSpacecraftFragment : Fragment() {
             progressDialog.dismiss()
         })
 
-        _binding = FragmentCreatingSpacecraftBinding.inflate(inflater, container, false)
-        val view = binding.root
+        viewModel.apiOnFailure.observe(viewLifecycleOwner, {
+            progressDialog.dismiss()
+            Toast.makeText(
+                context,
+                "Bağlantıda sorun yaşandı. Lütfen tekrardan bağlanın.",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+            binding.btnContinue.text = "Tekrardan Bağlan"
+        })
+    }
 
-        binding.btnContinue.setOnClickListener {
-            if (speedPoint == 0 || durabilityPoint == 0 || capacityPoint == 0)
-                Toast.makeText(context, "Yetenekler 0'dan büyük olmalıdır.", Toast.LENGTH_SHORT)
-                    .show()
-            else if (totalPoint != 15) {
-                Toast.makeText(context, "Yeteneklerin toplamı 15 olmalıdır.", Toast.LENGTH_SHORT)
-                    .show()
-            } else if (binding.edtStationName.text.isEmpty()) {
-                Toast.makeText(context, "İstasyon adı boş olamaz.", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                val spaceCraft = Spacecraft(
-                    binding.edtStationName.text.toString(),
-                    binding.sbSpeed.progress,
-                    binding.sbCapacity.progress,
-                    binding.sbDurability.progress,
-                    binding.sbCapacity.progress * 10000,
-                    binding.sbSpeed.progress * 20,
-                    binding.sbDurability.progress * 10000,
-                    currentPositionName = station.name,
-                    coordinateX = station.coordinateX,
-                    coordinateY = station.coordinateY
-                )
-                viewModel.addSpacecraft(spaceCraft)
-                findNavController().navigate(R.id.action_creatingSpacecraftFragment_to_homeScreenFragment)
-            }
-        }
-
-
+    private fun listeners() {
         fun updateValue() {
             totalPoint = durabilityPoint + speedPoint + capacityPoint
             binding.tvPoint.text = "Dağıtılacak Puan : ${totalPoint}"
         }
-
         binding.sbDurability.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 durabilityPoint = p1
@@ -114,7 +105,6 @@ class CreatingSpacecraftFragment : Fragment() {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 speedPoint = p1
                 updateValue()
-
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -140,10 +130,47 @@ class CreatingSpacecraftFragment : Fragment() {
             }
 
         })
-        return view
+
+        binding.btnContinue.setOnClickListener {
+            if (binding.btnContinue.text.toString().trim() == "Tekrardan Bağlan") {
+                progressDialog.show()
+                viewModel.getAllStationFromAPI()
+            } else {
+                if (speedPoint == 0 || durabilityPoint == 0 || capacityPoint == 0)
+                    Toast.makeText(context, "Yetenekler 0'dan büyük olmalıdır.", Toast.LENGTH_SHORT)
+                        .show()
+                else if (totalPoint != 15) {
+                    Toast.makeText(
+                        context,
+                        "Yeteneklerin toplamı 15 olmalıdır.",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                } else if (binding.edtStationName.text.isEmpty()) {
+                    Toast.makeText(context, "İstasyon adı boş olamaz.", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    val spaceCraft = Spacecraft(
+                        binding.edtStationName.text.toString(),
+                        binding.sbSpeed.progress,
+                        binding.sbCapacity.progress,
+                        binding.sbDurability.progress,
+                        binding.sbCapacity.progress * 10000,
+                        binding.sbSpeed.progress * 20,
+                        binding.sbDurability.progress * 10000,
+                        currentPositionName = station.name,
+                        coordinateX = station.coordinateX,
+                        coordinateY = station.coordinateY
+                    )
+                    viewModel.addSpacecraft(spaceCraft)
+                    findNavController().navigate(R.id.action_creatingSpacecraftFragment_to_homeScreenFragment)
+                }
+            }
+        }
+
     }
 
-    fun setProgressDialog(){
+    private fun setProgressDialog() {
         progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Yükleniyor")
         progressDialog.show()
