@@ -38,17 +38,11 @@ class CreatingSpacecraftFragment : Fragment() {
         _binding = FragmentCreatingSpacecraftBinding.inflate(inflater, container, false)
         val view = binding.root
 
-//        viewModel.setDb(context?.let { RoomDatabase.getStationDatabase(it) }!!)
-
-        return view
-    }
-
-    override fun onStart() {
         viewModelSetObserver()
         listeners()
         viewModel.getFavSpaceStation()
         viewModel.getAllStationFromAPI()
-        super.onStart()
+        return view
     }
 
     private fun viewModelSetObserver() {
