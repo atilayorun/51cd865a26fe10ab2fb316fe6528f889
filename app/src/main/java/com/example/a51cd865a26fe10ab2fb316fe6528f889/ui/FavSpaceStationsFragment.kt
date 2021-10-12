@@ -23,13 +23,6 @@ class FavSpaceStationsFragment : Fragment(),
     private lateinit var adapter: FavSpaceStationsAdapter
 
 
-    override fun onStart() {
-        super.onStart()
-        setupAdapter()
-        viewModelSetObserver()
-        viewModel.getAllFavStation()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +30,9 @@ class FavSpaceStationsFragment : Fragment(),
     ): View? {
         _binding = FragmentFavSpaceStationsBinding.inflate(inflater, container, false)
         val view = binding.root
+        setupAdapter()
+        viewModelSetObserver()
+        viewModel.getAllFavStation()
         return view
     }
 

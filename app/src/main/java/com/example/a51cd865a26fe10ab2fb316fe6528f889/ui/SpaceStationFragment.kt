@@ -28,15 +28,6 @@ class SpaceStationFragment : Fragment(), SpaceStationAdapter.StationAdapterListe
     private lateinit var spaceCraft: Spacecraft
     private var gameOver: Boolean = false
 
-    override fun onStart() {
-        super.onStart()
-        setupAdapter()
-        viewModelSetObserver()
-        listeners()
-
-        viewModelSpace.getAllData()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,7 +36,11 @@ class SpaceStationFragment : Fragment(), SpaceStationAdapter.StationAdapterListe
         _binding = FragmentStationBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        setupAdapter()
+        viewModelSetObserver()
+        listeners()
 
+        viewModelSpace.getAllData()
         return view
     }
 
@@ -133,11 +128,19 @@ class SpaceStationFragment : Fragment(), SpaceStationAdapter.StationAdapterListe
 
     override fun btnTravelSetOnClickListener(spaceStation: SpaceStation) {
         if (gameOver)
-            Toast.makeText(context, "Oyun bitti. Tekrardan başlamak için ilk sayfaya dönün.", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                context,
+                "Oyun bitti. Tekrardan başlamak için ilk sayfaya dönün.",
+                Toast.LENGTH_SHORT
+            )
                 .show()
         else {
             when {
-                binding.tvCurrentStation.text == spaceStation.name -> Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
+                binding.tvCurrentStation.text == spaceStation.name -> Toast.makeText(
+                    context,
+                    "Zaten bu istasyondasınız.",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
                 spaceStation.capacity == spaceStation.stock -> Toast.makeText(
                     context,
