@@ -11,20 +11,20 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter.StationAdapter
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter.SpaceStationAdapter
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentStationBinding
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.SpaceStation
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.util.Util
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.StationViewModel
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.SpaceStationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
+class SpaceStationFragment : Fragment(), SpaceStationAdapter.StationAdapterListener {
     private var _binding: FragmentStationBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: StationViewModel by viewModels()
-    private lateinit var adapter: StationAdapter
+    private val viewModelSpace: SpaceStationViewModel by viewModels()
+    private lateinit var adapterSpace: SpaceStationAdapter
     private lateinit var spaceCraft: Spacecraft
     private var gameOver: Boolean = false
 
@@ -34,7 +34,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
         viewModelSetObserver()
         listeners()
 
-        viewModel.getAllData()
+        viewModelSpace.getAllData()
     }
 
     override fun onCreateView(
@@ -56,19 +56,19 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                adapter.filter(p0.toString())
+                adapterSpace.filter(p0.toString())
                 return false
             }
         })
     }
 
     private fun viewModelSetObserver() {
-        viewModel.canGo.observe(viewLifecycleOwner, {
+        viewModelSpace.canGo.observe(viewLifecycleOwner, {
             Toast.makeText(context, "Yetersiz kaynaktan dolayı gidilemiyor.", Toast.LENGTH_SHORT)
                 .show()
         })
 
-        viewModel.spacecraftLiveData.observe(viewLifecycleOwner, {
+        viewModelSpace.spacecraftLiveData.observe(viewLifecycleOwner, {
             spaceCraft = it
             if (spaceCraft.damageCapacity == 0 || spaceCraft.enduranceTime == 0 || spaceCraft.spaceSuitCount == 0 || spaceCraft.universalSpaceTime == 0) {
                 gameOver = true
@@ -89,7 +89,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
             binding.tvTime.text = "${it.enduranceTime / 1000}s"
         })
 
-        viewModel.spaceStationListLiveData.observe(viewLifecycleOwner, {
+        viewModelSpace.spaceStationListLiveData.observe(viewLifecycleOwner, {
             it.map { x ->
                 x.distanceToSpacecraft = Util.distanceFormula(
                     x.coordinateX,
@@ -98,7 +98,7 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
                     spaceCraft.coordinateY
                 )
             }
-            adapter.setData(it as ArrayList<Station>)
+            adapterSpace.setData(it as ArrayList<SpaceStation>)
         })
     }
 
@@ -112,8 +112,8 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
     }
 
     private fun setupAdapter() {
-        adapter = StationAdapter(this)
-        binding.rvStation.adapter = adapter
+        adapterSpace = SpaceStationAdapter(this)
+        binding.rvStation.adapter = adapterSpace
         binding.rvStation.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
@@ -123,30 +123,30 @@ class StationFragment : Fragment(), StationAdapter.StationAdapterListener {
         _binding = null
     }
 
-    override fun imgStarOnClickListener(station: Station, ivStar: ImageView) {
-        if (!station.isFav) {
-            station.isFav = true
-            viewModel.updateStation(station)
+    override fun imgStarOnClickListener(spaceStation: SpaceStation, ivStar: ImageView) {
+        if (!spaceStation.isFav) {
+            spaceStation.isFav = true
+            viewModelSpace.updateStation(spaceStation)
             ivStar.setImageResource(R.drawable.ic_star_black)
         }
     }
 
-    override fun btnTravelSetOnClickListener(station: Station) {
+    override fun btnTravelSetOnClickListener(spaceStation: SpaceStation) {
         if (gameOver)
             Toast.makeText(context, "Oyun bitti. Tekrardan başlamak için ilk sayfaya dönün.", Toast.LENGTH_SHORT)
                 .show()
         else {
             when {
-                binding.tvCurrentStation.text == station.name -> Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
+                binding.tvCurrentStation.text == spaceStation.name -> Toast.makeText(context, "Zaten bu istasyondasınız.", Toast.LENGTH_SHORT)
                     .show()
-                station.capacity == station.stock -> Toast.makeText(
+                spaceStation.capacity == spaceStation.stock -> Toast.makeText(
                     context,
                     "Gittiğiniz istasyona tekrardan gidemezsiniz.",
                     Toast.LENGTH_SHORT
                 )
                     .show()
-                binding.tvCurrentStation.text != station.name -> {
-                    viewModel.btnTravelSetOnClick(station)
+                binding.tvCurrentStation.text != spaceStation.name -> {
+                    viewModelSpace.btnTravelSetOnClick(spaceStation)
                 }
             }
         }

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "fav_station_table")
-data class Station(
+data class SpaceStation(
     @PrimaryKey var name: String,
     var coordinateX: Double,
     var coordinateY: Double,

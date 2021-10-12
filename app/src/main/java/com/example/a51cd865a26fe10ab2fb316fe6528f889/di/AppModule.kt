@@ -7,7 +7,7 @@ import com.example.a51cd865a26fe10ab2fb316fe6528f889.api.ApiHelperImpl
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.api.ApiService
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.ProjectDatabase
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpacecraftDao
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.StationDao
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.db.SpaceStationDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,7 +48,7 @@ object AppModule {
     fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper = apiHelper
 
     @Provides
-    fun provideSpaceStationDao(projectDatabase: ProjectDatabase):StationDao = projectDatabase.stationDao()
+    fun provideSpaceStationDao(projectDatabase: ProjectDatabase):SpaceStationDao = projectDatabase.stationDao()
 
     @Provides
     fun provideSpacecraftDao(projectDatabase: ProjectDatabase):SpacecraftDao = projectDatabase.spaceCraftDao()

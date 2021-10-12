@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentCreatingSpacecraftBinding
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Spacecraft
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.SpaceStation
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.CreatingSpacecraftViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,7 +27,7 @@ class CreatingSpacecraftFragment : Fragment() {
     private var speedPoint: Int = 0
     private var capacityPoint: Int = 0
     private lateinit var progressDialog: ProgressDialog
-    private lateinit var station: Station
+    private lateinit var spaceStation: SpaceStation
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +65,7 @@ class CreatingSpacecraftFragment : Fragment() {
         })
 
         viewModel.spaceStationListLiveData.observe(viewLifecycleOwner, {
-            this.station = it[0]
+            this.spaceStation = it[0]
             viewModel.addAllStation()
             progressDialog.dismiss()
         })
@@ -158,9 +158,9 @@ class CreatingSpacecraftFragment : Fragment() {
                         binding.sbCapacity.progress * 10000,
                         binding.sbSpeed.progress * 20,
                         binding.sbDurability.progress * 10000,
-                        currentPositionName = station.name,
-                        coordinateX = station.coordinateX,
-                        coordinateY = station.coordinateY
+                        currentPositionName = spaceStation.name,
+                        coordinateX = spaceStation.coordinateX,
+                        coordinateY = spaceStation.coordinateY
                     )
                     viewModel.addSpacecraft(spaceCraft)
                     findNavController().navigate(R.id.action_creatingSpacecraftFragment_to_homeScreenFragment)

@@ -7,19 +7,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.R
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.ItemStationBinding
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.SpaceStation
 import java.util.*
 import kotlin.collections.ArrayList
 
-class StationAdapter(listener: StationAdapterListener) :
-    RecyclerView.Adapter<StationAdapter.ViewHolder>() {
+class SpaceStationAdapter(listener: StationAdapterListener) :
+    RecyclerView.Adapter<SpaceStationAdapter.ViewHolder>() {
     var listener: StationAdapterListener = listener
-    private var stationList = arrayListOf<Station>()
-    private lateinit var copyStationList: ArrayList<Station>
+    private var stationList = arrayListOf<SpaceStation>()
+    private lateinit var copySpaceStationList: ArrayList<SpaceStation>
     var position: Int = 0
     private lateinit var context: Context
 
@@ -34,10 +33,10 @@ class StationAdapter(listener: StationAdapterListener) :
         return ViewHolder(itemBinding)
     }
 
-    fun setData(stationList: ArrayList<Station>) {
-        this.stationList = stationList
-        copyStationList = ArrayList()
-        copyStationList.addAll(stationList)
+    fun setData(spaceStationList: ArrayList<SpaceStation>) {
+        this.stationList = spaceStationList
+        copySpaceStationList = ArrayList()
+        copySpaceStationList.addAll(spaceStationList)
         notifyDataSetChanged()
     }
 
@@ -45,9 +44,9 @@ class StationAdapter(listener: StationAdapterListener) :
         val charText = charText.toLowerCase(Locale.getDefault())
         stationList.clear()
         if (charText.length === 0) {
-            stationList.addAll(copyStationList)
+            stationList.addAll(copySpaceStationList)
         } else {
-            for (station in copyStationList) {
+            for (station in copySpaceStationList) {
                 if (station.name.toLowerCase(Locale.getDefault())
                         .contains(charText.toLowerCase())
                 ) {
@@ -111,8 +110,8 @@ class StationAdapter(listener: StationAdapterListener) :
     }
 
     interface StationAdapterListener {
-        fun imgStarOnClickListener(station: Station, ivStar: ImageView)
-        fun btnTravelSetOnClickListener(station: Station)
+        fun imgStarOnClickListener(spaceStation: SpaceStation, ivStar: ImageView)
+        fun btnTravelSetOnClickListener(spaceStation: SpaceStation)
         fun scrollToNext(position: Int)
         fun scrollToPrevious(position: Int)
     }

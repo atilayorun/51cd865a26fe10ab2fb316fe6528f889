@@ -7,11 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.adapter.FavSpaceStationsAdapter
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.databinding.FragmentFavSpaceStationsBinding
-import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.Station
+import com.example.a51cd865a26fe10ab2fb316fe6528f889.model.SpaceStation
 import com.example.a51cd865a26fe10ab2fb316fe6528f889.viewModel.FavSpaceStationsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,8 +53,8 @@ class FavSpaceStationsFragment : Fragment(),
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    override fun updateStation(station: Station, ivFav: ImageView) {
-        station.isFav = false
-        viewModel.updateAndGetAllFavStation(station)
+    override fun updateStation(spaceStation: SpaceStation, ivFav: ImageView) {
+        spaceStation.isFav = false
+        viewModel.updateAndGetAllFavStation(spaceStation)
     }
 }

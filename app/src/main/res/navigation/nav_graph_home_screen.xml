@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/stationFragment2"
-        android:name="com.example.a51cd865a26fe10ab2fb316fe6528f889.ui.StationFragment"
+        android:name="com.example.a51cd865a26fe10ab2fb316fe6528f889.ui.SpaceStationFragment"
         android:label="fragment_station"
         tools:layout="@layout/fragment_station" />
     <fragment
