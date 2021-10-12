@@ -18,7 +18,7 @@ class SpaceStationAdapter(listener: StationAdapterListener) :
     RecyclerView.Adapter<SpaceStationAdapter.ViewHolder>() {
     var listener: StationAdapterListener = listener
     private var stationList = arrayListOf<SpaceStation>()
-    private lateinit var copySpaceStationList: ArrayList<SpaceStation>
+    private var copySpaceStationList= arrayListOf<SpaceStation>()
     var position: Int = 0
     private lateinit var context: Context
 
